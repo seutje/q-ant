@@ -117,9 +117,10 @@ function checkWinLoss() {
   const alive = gameState.teams.filter(t =>
     gameState.ants.some(a => a.type === 'queen' && a.team === t.id && !a.dead)
   );
-  if (alive.length <= 1) {
-    const playerAlive = alive.some(t => t.id === 0);
-    showGameOver(playerAlive ? 'You Win!' : 'Game Over');
+  if (alive.length === 1 && alive[0].id === 0) {
+    showGameOver('You Win!');
+  } else if (alive.length <= 1) {
+    showGameOver('Game Over');
   }
 }
 
