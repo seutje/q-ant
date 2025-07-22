@@ -18,7 +18,7 @@ export const ANT_STATS = {
   private:  { hp: 25, dmg: 6, range: 1, speed: 0.045 },
   general:  { hp: 90, dmg: 18, range: 1, speed: 0.022 },
   artillery:{ hp: 20, dmg: 10, range: 9, speed: 0.028 },
-  defender: { hp: 150, dmg: 2, range: 1, speed: 0.015 },
+  defender: { hp: 300, dmg: 2, range: 1, speed: 0.015 },
   queen:    { hp: 500, dmg: 0, range: 0, speed: 0 }
 };
 

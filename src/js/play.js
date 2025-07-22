@@ -66,7 +66,7 @@ function spawnPlayerAnt(type) {
 
 function orderPlayerAttack() {
   gameState.ants
-    .filter(a => a.team === 0 && !['worker','queen'].includes(a.type))
+    .filter(a => a.team === 0 && !['worker','queen','defender'].includes(a.type))
     .forEach(a => a.state = 'attacking');
   click();
 }
