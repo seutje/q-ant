@@ -5,12 +5,31 @@
   box-sizing: border-box;
 }
 
+/* previous styles + new panel */
 body {
-  background: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  background:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:sans-serif;
+  color:#fff;
+}
+
+#ui {
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#000c;
+  padding:12px;
+  border-radius:6px;
+  user-select:none;
+}
+
+button {
+  margin:4px 2px;
+  padding:4px 8px;
+  min-width:90px;
 }
 
 canvas {
