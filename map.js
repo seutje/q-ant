@@ -12,6 +12,14 @@ class GameMap {
         this.grid = [];
         this.resources = [];
         this.generate();
+        this.pheromones = [];
+        for (let y = 0; y < this.height; y++) {
+            const row = [];
+            for (let x = 0; x < this.width; x++) {
+                row.push(0);
+            }
+            this.pheromones.push(row);
+        }
     }
 
     generate() {
@@ -33,15 +41,19 @@ class GameMap {
                 if (this.grid[y][x] === 0) {
                     const rand = this.rng();
                     if (rand < ResourceTypes.SODA.rarity) {
-                        this.resources.push({ x, y, type: ResourceTypes.SODA });
+                        this.resources.push({ x, y, type: ResourceTypes.SODA, amount: ResourceTypes.SODA.sugar });
                     } else if (rand < ResourceTypes.SODA.rarity + ResourceTypes.CORN_SYRUP.rarity) {
-                        this.resources.push({ x, y, type: ResourceTypes.CORN_SYRUP });
+                        this.resources.push({ x, y, type: ResourceTypes.CORN_SYRUP, amount: ResourceTypes.CORN_SYRUP.sugar });
                     } else if (rand < ResourceTypes.SODA.rarity + ResourceTypes.CORN_SYRUP.rarity + ResourceTypes.ENERGY_DRINK.rarity) {
-                        this.resources.push({ x, y, type: ResourceTypes.ENERGY_DRINK });
+                        this.resources.push({ x, y, type: ResourceTypes.ENERGY_DRINK, amount: ResourceTypes.ENERGY_DRINK.sugar });
                     }
                 }
             }
         }
+    }
+
+    getResourceAt(x, y) {
+        return this.resources.find(r => r.x === x && r.y === y && r.amount > 0);
     }
 }
 

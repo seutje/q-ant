@@ -8,15 +8,15 @@ This document outlines the tasks for creating "Q-Ant", a 2D real-time strategy s
 
 The goal of this phase is to set up the basic project structure and create a rendering engine capable of drawing primitive shapes on the canvas, which will represent our game objects.
 
-- [ ] **1. Project Scaffolding**
+- [x] **1. Project Scaffolding**
     - [x] 1.1. Create `index.html` to host the canvas.
     - [x] 1.2. Create `style.css` for basic page and canvas styling.
     - [x] 1.3. Create `game.js` which will contain the main game logic.
-- [ ] **2. Canvas and Game Loop**
+- [x] **2. Canvas and Game Loop**
     - [x] 2.1. Initialize the HTML canvas element and its 2D rendering context.
     - [x] 2.2. Implement the main game loop (`requestAnimationFrame`) that will consistently update and draw the game state.
     - [x] 2.3. Separate logic into `update()` and `draw()` functions.
-- [ ] **3. Pixel Art Rendering Module**
+- [x] **3. Pixel Art Rendering Module**
     - [x] 3.1. Create a rendering helper or module.
     - [x] 3.2. Implement functions to draw basic shapes (e.g., `drawCircle`, `drawRectangle`, `drawLine`) which will be used for all game elements (ants, nests, resources). No sprites or textures will be used.
     - [x] 3.3. Establish a color palette for the game's pixel art style.
@@ -27,16 +27,16 @@ The goal of this phase is to set up the basic project structure and create a ren
 
 This phase focuses on creating the environment where the game takes place. The map will be procedurally generated but repeatable using seeds.
 
-- [ ] **1. Seedable Random Number Generator (RNG)**
+- [x] **1. Seedable Random Number Generator (RNG)**
     - [x] 1.1. Implement or import a simple pseudo-random number generator (PRNG) that can be initialized with a specific seed.
-- [ ] **2. Map Generation**
+- [x] **2. Map Generation**
     - [x] 2.1. Create a data structure to hold the map grid (e.g., a 2D array).
     - [x] 2.2. Implement a procedural generation algorithm (e.g., using Perlin/Simplex noise or another method) to create a forest-themed background texture.
     - [x] 2.3. Ensure the generation logic uses the seeded RNG.
-- [ ] **3. Resource Placement**
+- [x] **3. Resource Placement**
     - [x] 3.1. Define the three sugar resource types: Soda Puddle, Corn Syrup Puddle, and Energy Drink Puddle, with properties for sugar amount and rarity.
     - [x] 3.2. During map generation, strategically place these resources on the map, respecting their rarity.
-- [ ] **4. Player & AI Setup**
+- [x] **4. Player & AI Setup**
     - [x] 4.1. Designate 4 fixed starting locations in the corners of the map for the nests.
     - [x] 4.2. Implement logic to initialize up to 4 teams (1 player, 3 AI or 4 AI) at these locations.
 
@@ -46,25 +46,25 @@ This phase focuses on creating the environment where the game takes place. The m
 
 This phase introduces the primary game units and their fundamental autonomous behaviors.
 
-- [ ] **1. Game State Manager**
+- [x] **1. Game State Manager**
     - [x] 1.1. Create a central object to manage the state of the game, including sugar counts for each team, all active units, and pheromone trails.
-- [ ] **2. Ant Unit Blueprint**
+- [x] **2. Ant Unit Blueprint**
     - [x] 2.1. Create a base `Ant` class or object factory with common properties like position, velocity, health, team ID, and state (e.g., 'wandering', 'gathering', 'attacking').
-- [ ] **3. Queen Ant**
+- [x] **3. Queen Ant**
     - [x] 3.1. Create the `Queen` ant type.
     - [x] 3.2. The Queen is stationary within the nest.
     - [x] 3.3. Implement a `birthAnt(type)` function that consumes sugar and adds a new ant of the specified type to the game.
-- [ ] **4. Worker Ant & Pheromones**
-    - [ ] 4.1. Create the `Worker` ant type.
-    - [ ] 4.2. Implement a state machine for worker behavior:
+- [x] **4. Worker Ant & Pheromones**
+    - [x] 4.1. Create the `Worker` ant type.
+    - [x] 4.2. Implement a state machine for worker behavior:
         - `WANDERING`: Move randomly to find sugar.
         - `GATHERING`: If it finds sugar, gather it and switch state.
         - `RETURNING`: Travel back to the nest. While returning with food, lay down a pheromone trail.
-    - [ ] 4.3. Implement the pheromone system:
+    - [x] 4.3. Implement the pheromone system:
         - A separate data layer on the map that stores pheromone strength.
         - Pheromones guide other workers to food.
         - Pheromones decay and disappear over time.
-    - [ ] 4.4. When a worker returns to the nest, the team's sugar total is increased.
+    - [x] 4.4. When a worker returns to the nest, the team's sugar total is increased.
 
 ---
 
