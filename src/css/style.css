@@ -38,3 +38,45 @@ canvas {
   image-rendering: pixelated;   /* sharp pixels for pixel-art style */
   image-rendering: crisp-edges;
 }
+
+/* start screen */
+body#startBody {
+  background:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:#fff;
+}
+#startScreen {
+  background:#000c;
+  padding:30px 40px;
+  border-radius:8px;
+  text-align:center;
+}
+#startScreen h1 { margin-bottom:20px; }
+#startScreen input {
+  width:120px;
+  margin:0 8px;
+  text-align:center;
+}
+#startScreen button { margin:8px 4px; }
+
+/* game-over overlay */
+#overlay {
+  position:fixed;
+  inset:0;
+  background:#000d;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  font-size:2rem;
+}
+#overlay.hidden { display:none; }
+#overlay button {
+  margin-top:20px;
+  padding:8px 18px;
+  font-size:1rem;
+}

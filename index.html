@@ -2,26 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>Q-Ant – Phase 5</title>
+  <title>Q-Ant – Start</title>
   <link rel="stylesheet" href="src/css/style.css"/>
 </head>
 <body>
-  <canvas id="gameCanvas" width="800" height="600"></canvas>
-
-  <!-- UI Panel -->
-  <div id="ui">
-    <h3>Team 0</h3>
-    <div>Sugar: <span id="sugarDisplay">100</span></div>
-    <div>Workers: <span id="workerCount">0</span></div>
-    <div>Soldiers: <span id="soldierCount">0</span></div>
-
-    <button id="btnWorker"   >Worker  (10)</button>
-    <button id="btnPrivate"  >Private (15)</button>
-    <button id="btnGeneral"  >General (50)</button>
-    <button id="btnArtillery">Artillery(30)</button>
-    <button id="btnAttack"   >ATTACK!</button>
+  <div id="startScreen">
+    <h1>Q-Ant</h1>
+    <label>
+      Map seed:
+      <input id="seedInput" type="number" placeholder="12345"/>
+    </label>
+    <button id="randomBtn">Random</button>
+    <button id="startBtn">Start Game</button>
   </div>
 
-  <script type="module" src="src/js/game.js"></script>
+  <script type="module" src="src/js/start.js"></script>
 </body>
 </html>

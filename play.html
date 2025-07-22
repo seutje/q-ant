@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Q-Ant – Play</title>
+  <link rel="stylesheet" href="src/css/style.css"/>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+  <!-- UI panel (same as Phase 5 plus overlay) -->
+  <div id="ui">
+    <h3>Team 0</h3>
+    <div>Sugar: <span id="sugarDisplay">100</span></div>
+    <div>Workers: <span id="workerCount">0</span></div>
+    <div>Soldiers: <span id="soldierCount">0</span></div>
+
+    <button id="btnWorker">Worker  (10)</button>
+    <button id="btnPrivate">Private (15)</button>
+    <button id="btnGeneral">General (50)</button>
+    <button id="btnArtillery">Artillery(30)</button>
+    <button id="btnAttack">ATTACK!</button>
+  </div>
+
+  <!-- Game-Over overlay -->
+  <div id="overlay" class="hidden">
+    <h2 id="overlayText"></h2>
+    <button id="restartBtn">Restart</button>
+  </div>
+
+  <script type="module" src="src/js/play.js"></script>
+</body>
+</html>
