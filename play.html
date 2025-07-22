@@ -8,8 +8,7 @@
 <body>
   <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-  <!-- UI panel (same as Phase 5 plus overlay) -->
-  <div id="ui">
+  <div id="ui-team-0" class="ui-panel">
     <h3>Team 0</h3>
     <div>Sugar: <span id="sugarDisplay">100</span></div>
     <div>Workers: <span id="workerCount">0</span></div>
@@ -21,12 +20,11 @@
     <button id="btnGeneral">General (50)</button>
     <button id="btnArtillery">Artillery(30)</button>
     <button id="btnAttack">ATTACK!</button>
-
-    <div id="aiStats">
-      <h3>AI Teams</h3>
-      <!-- AI team stats will be dynamically added here -->
-    </div>
   </div>
+
+  <div id="ui-team-1" class="ui-panel"></div>
+  <div id="ui-team-2" class="ui-panel"></div>
+  <div id="ui-team-3" class="ui-panel"></div>
 
   <!-- Game-Over overlay -->
   <div id="overlay" class="hidden">
