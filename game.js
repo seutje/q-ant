@@ -4,6 +4,8 @@ const ctx = canvas.getContext('2d');
 const rng = RNG.createRNG(12345);
 const gameMap = new GameMap(50, 50, rng);
 
+const teams = [];
+
 const GameState = {
     teams,
     units: [],
@@ -22,15 +24,30 @@ class Ant {
     }
 }
 
+class Queen extends Ant {
+    constructor(x, y, teamId) {
+        super(x, y, teamId);
+        this.state = 'queen';
+    }
+
+    update() {
+        // Queen is stationary; no movement logic for now
+    }
+
+    birthAnt(AntType, cost = 10) {
+        return birthAnt(teams[this.teamId], AntType, cost);
+    }
+}
+
 class Team {
     constructor(id, x, y) {
         this.id = id;
         this.nest = { x, y };
         this.sugar = 0;
+        this.queen = new Queen(x, y, id);
     }
 }
 
-const teams = [];
 
 function initTeams(count) {
     const positions = [
@@ -41,11 +58,23 @@ function initTeams(count) {
     ];
     for (let i = 0; i < count && i < positions.length; i++) {
         const pos = positions[i];
-        teams.push(new Team(i, pos.x, pos.y));
+        const team = new Team(i, pos.x, pos.y);
+        teams.push(team);
+        GameState.units.push(team.queen);
     }
 }
 
 initTeams(4);
+
+function birthAnt(team, AntType, cost = 10) {
+    if (team.sugar >= cost) {
+        team.sugar -= cost;
+        const ant = new AntType(team.nest.x, team.nest.y, team.id);
+        GameState.units.push(ant);
+        return ant;
+    }
+    return null;
+}
 
 function update() {
     // TODO: game logic will go here
@@ -95,7 +124,17 @@ function draw() {
             Renderer.Colors.nest || '#aaaa00'
         );
     }
-    Renderer.drawCircle(ctx, canvas.width / 2, canvas.height / 2, 20, Renderer.Colors.ant);
+
+    for (const unit of GameState.units) {
+        const color = unit instanceof Queen ? '#ffaaaa' : Renderer.Colors.ant;
+        Renderer.drawCircle(
+            ctx,
+            unit.x * cellWidth + cellWidth / 2,
+            unit.y * cellHeight + cellHeight / 2,
+            Math.min(cellWidth, cellHeight) / 2,
+            color
+        );
+    }
 }
 
 function gameLoop() {

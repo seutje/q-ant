@@ -51,9 +51,9 @@ This phase introduces the primary game units and their fundamental autonomous be
 - [ ] **2. Ant Unit Blueprint**
     - [x] 2.1. Create a base `Ant` class or object factory with common properties like position, velocity, health, team ID, and state (e.g., 'wandering', 'gathering', 'attacking').
 - [ ] **3. Queen Ant**
-    - [ ] 3.1. Create the `Queen` ant type.
-    - [ ] 3.2. The Queen is stationary within the nest.
-    - [ ] 3.3. Implement a `birthAnt(type)` function that consumes sugar and adds a new ant of the specified type to the game.
+    - [x] 3.1. Create the `Queen` ant type.
+    - [x] 3.2. The Queen is stationary within the nest.
+    - [x] 3.3. Implement a `birthAnt(type)` function that consumes sugar and adds a new ant of the specified type to the game.
 - [ ] **4. Worker Ant & Pheromones**
     - [ ] 4.1. Create the `Worker` ant type.
     - [ ] 4.2. Implement a state machine for worker behavior:
