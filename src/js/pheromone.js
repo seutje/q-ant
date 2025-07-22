@@ -1,5 +1,5 @@
 import { gameState } from './entities.js';
-import { MAP_W, MAP_H } from './utils.js';
+import { MAP_W, MAP_H } from './constants.js';
 
 const GRID = Array.from({ length: MAP_H }, () =>
   Array.from({ length: MAP_W }, () => [0, 0, 0, 0]) // 4 teams
