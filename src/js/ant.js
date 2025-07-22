@@ -132,7 +132,17 @@ export class Ant {
         const inRange = enemyAnts.filter(a => dist(a, nest) <= 20);
         if (inRange.length) {
           this.target = inRange[0];
-          this.state = 'attacking';
+          const d = dist(this, this.target);
+          if (d <= this.range + 0.5) {
+            this.attack(this.target);
+          } else {
+            this.stepToward(this.target.x, this.target.y, delta, map);
+          }
+        } else {
+          this.target = null;
+          if (dist(this, nest) > 1) {
+            this.stepToward(nest.x, nest.y, delta, map);
+          }
         }
         break;
       }
