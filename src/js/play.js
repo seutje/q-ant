@@ -1,4 +1,4 @@
-/* ---------- existing imports ---------- */
+/* ---------- Imports ---------- */
 import { generateMap, NESTS } from './mapGen.js';
 import { gameState } from './entities.js';
 import { updatePheromones } from './pheromone.js';
@@ -12,9 +12,15 @@ import { click } from './audio.js';
 
 /* ---------- Rendering palette ---------- */
 const PALETTE = {
-  dirt:'#6B4423', grass:'#3A5F0B', dgrass:'#2B4708', nest:'#8B4513',
-  queen:'#FFD700', worker:'#90EE90', private:'#FF0000',
-  general:'#0000FF', artillery:'#800080'
+  dirt:   '#6B4423',
+  grass:  '#3A5F0B',
+  dgrass: '#2B4708',
+  nest:   '#8B4513',
+  queen:  '#FFD700',
+  worker: '#90EE90',
+  private:'#FF0000',
+  general:'#0000FF',
+  artillery:'#800080'
 };
 
 /* ---------- Canvas ---------- */
@@ -26,6 +32,24 @@ canvas.width = 800; canvas.height = 600;
 const SEED = Number(sessionStorage.getItem('qantSeed')) || 12345;
 const { map, resources } = generateMap(MAP_W, MAP_H, SEED);
 gameState.resources = resources;
+
+/* ---------- Spawn initial demo units & queens ---------- */
+function spawn(type, team) {
+  const n = gameState.teams[team].queen;
+  gameState.ants.push(new Ant(type, team, n.x + (Math.random() - 0.5), n.y + (Math.random() - 0.5)));
+}
+spawn('worker', 0);
+spawn('worker', 0);
+spawn('private', 0);
+spawn('artillery', 0);
+spawn('private', 1);
+spawn('private', 1);
+spawn('general', 1);
+
+/* ---------- Spawn the four stationary queens ---------- */
+gameState.teams.forEach(t => {
+  gameState.ants.push(new Ant('queen', t.id, t.queen.x, t.queen.y));
+});
 
 /* ---------- Player actions + sound ---------- */
 function spawnPlayerAnt(type) {
@@ -88,6 +112,8 @@ function drawAnt(a) {
 
 /* ---------- Win/Loss ---------- */
 function checkWinLoss() {
+  if (!gameState.ants.some(a => a.type === 'queen')) return; // wait until queens exist
+
   const alive = gameState.teams.filter(t =>
     gameState.ants.some(a => a.type === 'queen' && a.team === t.id && !a.dead)
   );
