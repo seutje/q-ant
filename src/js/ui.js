@@ -8,11 +8,34 @@ export function updateUI() {
   $('sugarDisplay').textContent   = team.sugar;
   $('workerCount').textContent    = gameState.ants.filter(a => a.team === 0 && a.type === 'worker').length;
   $('soldierCount').textContent   = gameState.ants.filter(a => a.team === 0 && a.type !== 'worker' && a.type !== 'queen').length;
+  const playerQueen = gameState.ants.find(a => a.team === 0 && a.type === 'queen');
+  $('playerQueenHp').textContent = playerQueen ? playerQueen.hp.toFixed(0) : 'N/A';
 
   // disable buttons if not enough sugar
   Object.keys(ANT_COST).forEach(type => {
     $(`btn${type.charAt(0).toUpperCase() + type.slice(1)}`).disabled =
       team.sugar < ANT_COST[type];
+  });
+
+  // AI team stats
+  const aiStatsDiv = $('aiStats');
+  aiStatsDiv.innerHTML = ''; // Clear previous stats
+  gameState.teams.forEach(team => {
+    if (team.id === 0) return; // Skip human player
+
+    const queen = gameState.ants.find(a => a.team === team.id && a.type === 'queen');
+    const workers = gameState.ants.filter(a => a.team === team.id && a.type === 'worker').length;
+    const soldiers = gameState.ants.filter(a => a.team === team.id && a.type !== 'worker' && a.type !== 'queen').length;
+
+    const teamDiv = document.createElement('div');
+    teamDiv.innerHTML = `
+      <h4>Team ${team.id}</h4>
+      <div>Sugar: ${team.sugar}</div>
+      <div>Workers: ${workers}</div>
+      <div>Soldiers: ${soldiers}</div>
+      <div>Queen HP: ${queen ? queen.hp.toFixed(0) : 'N/A'}</div>
+    `;
+    aiStatsDiv.appendChild(teamDiv);
   });
 }
 
