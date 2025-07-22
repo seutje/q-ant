@@ -119,7 +119,11 @@ function checkWinLoss() {
     gameState.ants.some(a => a.type === 'queen' && a.team === t.id && !a.dead)
   );
   if (alive.length === 1) {
-    showGameOver(`Team ${alive[0].id} Wins!`);
+    if (alive[0].id === 0) {
+      showGameOver('You Win!');
+    } else {
+      showGameOver(`Team ${alive[0].id} Wins!`);
+    }
   } else if (alive.length <= 1) {
     showGameOver('Game Over');
   }
