@@ -34,7 +34,7 @@ export class Ant {
     if (this.type === 'worker') {
       switch (this.state) {
         case 'wandering': {
-          const nearby = resources.filter(r => !r.depleted && dist(this, r) < 15);
+          const nearby = resources.filter(r => !r.depleted && dist(this, r) < 30);
           if (nearby.length) {
             this.target = nearby.sort((a, b) => dist(this, a) - dist(this, b))[0];
             this.state = 'gathering';
