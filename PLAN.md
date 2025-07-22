@@ -10,8 +10,8 @@ The goal of this phase is to set up the basic project structure and create a ren
 
 - [ ] **1. Project Scaffolding**
     - [ ] 1.1. Create `index.html` to host the canvas.
-    - [ ] 1.2. Create `style.css` for basic page and canvas styling.
-    - [ ] 1.3. Create `game.js` which will contain the main game logic.
+    - [ ] 1.2. Create `src/css/style.css` for basic page and canvas styling.
+    - [ ] 1.3. Create `src/js/game.js` which will contain the main game logic.
 - [ ] **2. Canvas and Game Loop**
     - [ ] 2.1. Initialize the HTML canvas element and its 2D rendering context.
     - [ ] 2.2. Implement the main game loop (`requestAnimationFrame`) that will consistently update and draw the game state.
