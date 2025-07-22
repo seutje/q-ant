@@ -1,71 +1,71 @@
-/* ========== Rendering Helpers (Pixel-Art Style) ========== */
+import mulberry32       from './prng.js';
+import { generateMap, NESTS } from './mapGen.js';
+import { gameState }    from './entities.js';
+
+/* ---------- Rendering Helpers ---------- */
 const PALETTE = {
-  bg:        '#222',
-  nest:      '#8B4513',
-  antWorker: '#90EE90',
-  antQueen:  '#FFD700',
-  sugar:     '#FFFACD',
-  phero:     '#FF69B4',
-  black:     '#000'
+  dirt:  '#6B4423',
+  grass: '#3A5F0B',
+  dgrass:'#2B4708',
+  nest:  '#8B4513',
+  queen: '#FFD700',
+  soda:  '#FFFACD',
+  syrup: '#FFA500',
+  energy:'#FF6347'
 };
+
+function drawTile(ctx, x, y, type) {
+  ctx.fillStyle = type === 0 ? PALETTE.dirt :
+                  type === 1 ? PALETTE.grass : PALETTE.dgrass;
+  ctx.fillRect(x * 8, y * 8, 8, 8);
+}
 
 function drawCircle(ctx, x, y, r, color) {
   ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.arc(x * 8, y * 8, r, 0, Math.PI * 2);
   ctx.fill();
 }
 
-function drawRectangle(ctx, x, y, w, h, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, w, h);
-}
-
-function drawLine(ctx, x1, y1, x2, y2, color, width = 1) {
-  ctx.strokeStyle = color;
-  ctx.lineWidth = width;
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
-}
-
-/* ========== Canvas & Game Loop ========== */
+/* ---------- Canvas & Loop ---------- */
 const canvas  = document.getElementById('gameCanvas');
 const ctx     = canvas.getContext('2d');
+canvas.width  = 800;
+canvas.height = 600;
 
-let lastTime = 0;
-const TARGET_FPS = 60;
-const FRAME_TIME = 1000 / TARGET_FPS;
+// --- Map generation with seed ---
+const SEED = 12345; // later user-supplied
+const { map, resources } = generateMap(100, 75, SEED);
 
-function update(delta) {
-  // Phase-1 stub: nothing to update yet
+function update() {
+  // Phase-2: nothing dynamic yet
 }
 
 function draw() {
-  // Clear
-  ctx.fillStyle = PALETTE.bg;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Terrain
+  for (let y = 0; y < map.length; y++) {
+    for (let x = 0; x < map[0].length; x++) {
+      drawTile(ctx, x, y, map[y][x]);
+    }
+  }
 
-  // Placeholder graphics to prove the engine works
-  // Nest
-  drawRectangle(ctx, 50, 50, 100, 100, PALETTE.nest);
-  // Queen
-  drawCircle(ctx, 100, 100, 12, PALETTE.antQueen);
-  // Worker
-  drawCircle(ctx, 300, 400, 8, PALETTE.antWorker);
-  // Sugar puddle
-  drawCircle(ctx, 600, 500, 20, PALETTE.sugar);
+  // Nests
+  NESTS.forEach(n => {
+    drawCircle(ctx, n.x, n.y, 12, PALETTE.nest);
+    drawCircle(ctx, n.x, n.y, 6, PALETTE.queen);
+  });
+
+  // Resources
+  resources.forEach(r => {
+    const color = r.name.includes('Soda') ? PALETTE.soda :
+                  r.name.includes('Corn') ? PALETTE.syrup : PALETTE.energy;
+    drawCircle(ctx, r.x, r.y, 4, color);
+  });
 }
 
-function gameLoop(timestamp) {
-  const delta = timestamp - lastTime;
-  if (delta >= FRAME_TIME) {
-    update(delta);
-    draw();
-    lastTime = timestamp;
-  }
+function gameLoop() {
+  update();
+  draw();
   requestAnimationFrame(gameLoop);
 }
-
 requestAnimationFrame(gameLoop);
