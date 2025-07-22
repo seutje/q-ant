@@ -51,9 +51,9 @@ export function generateMap(width, height, seed) {
   // --- Sugar resources ---
   const resources = [];
   const SUGAR_TYPES = [
-    { name: 'Soda Puddle',      amount: 50, rarity: 0.6 },
-    { name: 'Corn Syrup Puddle',amount: 100, rarity: 0.3 },
-    { name: 'Energy Drink',     amount: 200, rarity: 0.1 }
+    { name: 'Soda Puddle',      amount: 100, rarity: 0.6 },
+    { name: 'Corn Syrup Puddle',amount: 200, rarity: 0.3 },
+    { name: 'Energy Drink',     amount: 400, rarity: 0.1 }
   ];
 
   for (let attempt = 0; attempt < width * height * 0.01; attempt++) {
