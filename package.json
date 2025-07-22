@@ -1,0 +1,18 @@
+{
+  "name": "q-ant",
+  "version": "1.0.0",
+  "description": "A 2D ants game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "game",
+    "ants"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
