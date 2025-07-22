@@ -133,8 +133,18 @@ document.getElementById('restartBtn').onclick = () => location.href = '../index.
 
 /* ---------- Main loop ---------- */
 let last = 0;
+let gameSpeed = 0.5; // Initial game speed
+
+const gameSpeedSlider = document.getElementById('gameSpeed');
+const gameSpeedDisplay = document.getElementById('gameSpeedDisplay');
+
+gameSpeedSlider.oninput = (e) => {
+  gameSpeed = parseFloat(e.target.value);
+  gameSpeedDisplay.textContent = `${gameSpeed.toFixed(1)}x`;
+};
+
 function gameLoop(ts) {
-  const delta = ts - last;
+  const delta = (ts - last) * gameSpeed;
 
   cleanupDead();
   updatePheromones(delta);
