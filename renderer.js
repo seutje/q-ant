@@ -4,6 +4,9 @@ const Colors = {
     nest: '#00ff00',
     resource: '#ffff00',
     pheromone: 'rgba(0,255,255,0.4)',
+    private: '#00ffff',
+    general: '#ffffff',
+    artillery: '#ff00ff',
 };
 
 function drawCircle(ctx, x, y, radius, color) {

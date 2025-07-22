@@ -73,17 +73,17 @@ This phase introduces the primary game units and their fundamental autonomous be
 This phase implements the military aspect of the game, including different soldier types and combat mechanics.
 
 - [ ] **1. Soldier Ant Types**
-    - [ ] 1.1. Create the `Private` ant: cheap, fast, low health, low damage.
-    - [ ] 1.2. Create the `General` ant: expensive, slow, high health, high damage.
-    - [ ] 1.3. Create the `Artillery` ant: medium cost/speed, low health, ranged attack.
-    - [ ] 1.4. Ensure each soldier type has distinct visual characteristics (size, color).
+    - [x] 1.1. Create the `Private` ant: cheap, fast, low health, low damage.
+    - [x] 1.2. Create the `General` ant: expensive, slow, high health, high damage.
+    - [x] 1.3. Create the `Artillery` ant: medium cost/speed, low health, ranged attack.
+    - [x] 1.4. Ensure each soldier type has distinct visual characteristics (size, color).
 - [ ] **2. Soldier Behavior**
-    - [ ] 2.1. Implement `DEFENDING` state: Soldiers stay near their nest and automatically attack any enemy ants within a certain radius.
-    - [ ] 2.2. Implement `ATTACKING` state: When the global 'Attack' command is issued, all soldiers from that team will pathfind towards the nearest enemy queen and attack any enemies they encounter along the way.
+    - [x] 2.1. Implement `DEFENDING` state: Soldiers stay near their nest and automatically attack any enemy ants within a certain radius.
+    - [x] 2.2. Implement `ATTACKING` state: When the global 'Attack' command is issued, all soldiers from that team will pathfind towards the nearest enemy queen and attack any enemies they encounter along the way.
 - [ ] **3. Combat Logic**
-    - [ ] 3.1. Implement health and damage calculations.
-    - [ ] 3.2. When an ant's health reaches zero, it is removed from the game.
-    - [ ] 3.3. For the Artillery ant, implement ranged attack logic (attacking without needing to be adjacent to the target).
+    - [x] 3.1. Implement health and damage calculations.
+    - [x] 3.2. When an ant's health reaches zero, it is removed from the game.
+    - [x] 3.3. For the Artillery ant, implement ranged attack logic (attacking without needing to be adjacent to the target).
 
 ---
 
