@@ -5,16 +5,16 @@ const OCTAVES = 3;
 const PERSISTENCE = 0.5;
 
 // 2-D pseudo-Perlin noise (value noise) – plenty good for our pixel forest
-function noise2D(x, y, rand) {
+function noise2D(x, y, seed) {
   const x0 = Math.floor(x) & 255;
   const y0 = Math.floor(y) & 255;
   const xf = x - Math.floor(x);
   const yf = y - Math.floor(y);
 
-  const n00 = rand();
-  const n10 = rand();
-  const n01 = rand();
-  const n11 = rand();
+  const n00 = mulberry32(seed + x0 + y0)();
+  const n10 = mulberry32(seed + x0 + y0 + 1)();
+  const n01 = mulberry32(seed + x0 + y0 + 2)();
+  const n11 = mulberry32(seed + x0 + y0 + 3)();
 
   const u = fade(xf);
   const v = fade(yf);
@@ -39,7 +39,7 @@ export function generateMap(width, height, seed) {
       let frequency = 0.05;
       let value = 0;
       for (let i = 0; i < OCTAVES; i++) {
-        value += noise2D(x * frequency, y * frequency, rand) * amplitude;
+        value += noise2D(x * frequency, y * frequency, seed) * amplitude;
         amplitude *= PERSISTENCE;
         frequency *= 2;
       }
