@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-Ant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="controls">
+        <span id="sugarDisplay">Sugar: 0</span>
+        <span id="workerDisplay">Workers: 0</span>
+        <span id="soldierDisplay">Soldiers: 0</span>
+        <button id="btnWorker">Worker (w)</button>
+        <button id="btnPrivate">Private (p)</button>
+        <button id="btnGeneral">General (g)</button>
+        <button id="btnArtillery">Artillery (r)</button>
+        <button id="btnAttack">ATTACK!</button>
+    </div>
+    <div id="setupScreen">
+        <label>Seed: <input id="seedInput" placeholder="random"></label>
+        <button id="startButton">Start Game</button>
+    </div>
+    <div id="gameMessage"></div>
+    <script src="rng.js"></script>
+    <script src="renderer.js"></script>
+    <script src="map.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

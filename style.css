@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #111;
+}
+
+canvas {
+    background-color: #222;
+    image-rendering: pixelated;
+}
+
+#controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#sugarDisplay {
+    color: #fff;
+    margin-right: 8px;
+}
+
+#workerDisplay, #soldierDisplay {
+    color: #fff;
+    margin-right: 8px;
+}
+
+#controls button {
+    margin-right: 4px;
+}
+
+#gameMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 20px;
+    font-size: 24px;
+    display: none;
+}
+
+#setupScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#setupScreen label {
+    margin-bottom: 10px;
+}
