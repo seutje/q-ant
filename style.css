@@ -11,3 +11,13 @@ canvas {
     background-color: #222;
     image-rendering: pixelated;
 }
+
+#controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#controls button {
+    margin-right: 4px;
+}

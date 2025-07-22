@@ -20,6 +20,10 @@ for (let y = 0; y < gameMap.height; y++) {
 
 const teams = GameState.teams;
 
+function areEnemies(id1, id2) {
+    return id1 !== id2;
+}
+
 class Ant {
     constructor(x, y, teamId) {
         this.x = x;
@@ -100,7 +104,7 @@ class Soldier extends Ant {
 
     findEnemyInRange(range) {
         for (const unit of GameState.units) {
-            if (unit.teamId !== this.teamId && unit.health > 0) {
+            if (areEnemies(unit.teamId, this.teamId) && unit.health > 0) {
                 const dist = Math.abs(unit.x - this.x) + Math.abs(unit.y - this.y);
                 if (dist <= range) {
                     return unit;
@@ -196,6 +200,7 @@ class PlayerController {
     constructor(team) {
         this.team = team;
         this.initInput();
+        this.initUI();
     }
 
     initInput() {
@@ -218,6 +223,47 @@ class PlayerController {
                     break;
             }
         });
+    }
+
+    initUI() {
+        const workerBtn = document.getElementById('btnWorker');
+        const privateBtn = document.getElementById('btnPrivate');
+        const generalBtn = document.getElementById('btnGeneral');
+        const artilleryBtn = document.getElementById('btnArtillery');
+        const attackBtn = document.getElementById('btnAttack');
+        if (workerBtn)
+            workerBtn.addEventListener('click', () => this.team.queen.birthAnt(Worker, 5));
+        if (privateBtn)
+            privateBtn.addEventListener('click', () => this.team.queen.birthAnt(Private, 10));
+        if (generalBtn)
+            generalBtn.addEventListener('click', () => this.team.queen.birthAnt(General, 20));
+        if (artilleryBtn)
+            artilleryBtn.addEventListener('click', () => this.team.queen.birthAnt(Artillery, 15));
+        if (attackBtn)
+            attackBtn.addEventListener('click', () => { this.team.attackMode = !this.team.attackMode; });
+    }
+}
+
+class AIController {
+    constructor(team) {
+        this.team = team;
+        this.timer = 0;
+    }
+
+    update() {
+        this.timer++;
+        const myUnits = GameState.units.filter(u => u.teamId === this.team.id);
+        const workers = myUnits.filter(u => u instanceof Worker).length;
+        const soldiers = myUnits.filter(u => u instanceof Soldier).length;
+        if (workers < 5) {
+            this.team.queen.birthAnt(Worker, 5);
+        } else if (this.team.sugar >= 10) {
+            this.team.queen.birthAnt(Private, 10);
+        }
+        if (this.timer > 600 && soldiers > 3) {
+            this.team.attackMode = true;
+            this.timer = 0;
+        }
     }
 }
 
@@ -243,6 +289,7 @@ function initTeams(count) {
 
 initTeams(4);
 const playerController = new PlayerController(teams[0]);
+const aiControllers = teams.slice(1).map(t => new AIController(t));
 
 function birthAnt(team, AntType, cost = 10) {
     if (team.sugar >= cost) {
@@ -267,6 +314,9 @@ function update() {
         if (typeof unit.update === 'function') {
             unit.update();
         }
+    }
+    for (const ai of aiControllers) {
+        ai.update();
     }
     GameState.units = GameState.units.filter(u => u.health > 0);
 }

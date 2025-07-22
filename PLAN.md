@@ -91,18 +91,18 @@ This phase implements the military aspect of the game, including different soldi
 
 This phase focuses on how the player and the AI make high-level strategic decisions.
 
-- [ ] **1. Player Controller**
+- [x] **1. Player Controller**
     - [x] 1.1. Create a system to handle player input.
-    - [ ] 1.2. Link UI buttons to the player's queen to spend sugar on creating specific ant types.
-    - [ ] 1.3. Implement the master "ATTACK!" button for the player.
-- [ ] **2. AI Controller**
-    - [ ] 2.1. Create a controller for each AI team.
-    - [ ] 2.2. Implement a decision-making tree for the AI:
+    - [x] 1.2. Link UI buttons to the player's queen to spend sugar on creating specific ant types.
+    - [x] 1.3. Implement the master "ATTACK!" button for the player.
+- [x] **2. AI Controller**
+    - [x] 2.1. Create a controller for each AI team.
+    - [x] 2.2. Implement a decision-making tree for the AI:
         - Logic to decide when to create workers vs. soldiers. (e.g., "if I have fewer than 10 workers, build a worker, otherwise build a soldier").
         - Logic to decide which type of soldier to build.
         - Logic to decide when to trigger the master "ATTACK!" command.
-- [ ] **3. Team System**
-    - [ ] 3.1. Solidify the team/faction system to ensure ants correctly identify friends and foes.
+- [x] **3. Team System**
+    - [x] 3.1. Solidify the team/faction system to ensure ants correctly identify friends and foes.
 
 ---
 
