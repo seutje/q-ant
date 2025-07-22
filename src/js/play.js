@@ -20,7 +20,8 @@ const PALETTE = {
   worker: '#90EE90',
   private:'#FF0000',
   general:'#0000FF',
-  artillery:'#800080'
+  artillery:'#800080',
+  defender:'#ADD8E6'
 };
 
 /* ---------- Canvas ---------- */

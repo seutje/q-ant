@@ -7,7 +7,7 @@ export function updateUI() {
   const playerTeam = gameState.teams[0];
   $('sugarDisplay').textContent   = playerTeam.sugar;
   $('workerCount').textContent    = gameState.ants.filter(a => a.team === 0 && a.type === 'worker').length;
-  $('soldierCount').textContent   = gameState.ants.filter(a => a.team === 0 && a.type !== 'worker' && a.type !== 'queen').length;
+  $('soldierCount').textContent   = gameState.ants.filter(a => a.team === 0 && a.type !== 'worker' && a.type !== 'queen' && a.type !== 'defender').length;
   const playerQueen = gameState.ants.find(a => a.team === 0 && a.type === 'queen');
   $('playerQueenHp').textContent = playerQueen ? playerQueen.hp.toFixed(0) : 'N/A';
 
@@ -43,5 +43,6 @@ export function bindButtons(spawnFn, attackFn) {
   document.getElementById('btnPrivate').onclick   = () => spawnFn('private');
   document.getElementById('btnGeneral').onclick   = () => spawnFn('general');
   document.getElementById('btnArtillery').onclick = () => spawnFn('artillery');
+  document.getElementById('btnDefender').onclick  = () => spawnFn('defender');
   document.getElementById('btnAttack').onclick    = attackFn;
 }

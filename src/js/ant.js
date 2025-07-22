@@ -178,6 +178,7 @@ export class Ant {
   }
 
   attack(target) {
+    if (this.type === 'defender') return; // Defender ants do not attack
     if (target.hp !== undefined) {
       const dmg = this.dmg;
       target.hp -= dmg;
