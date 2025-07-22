@@ -21,6 +21,7 @@ export class Ant {
                 : 'defending';
     this.target = null;
     this.rand   = mulberry32(team * 9999 + Math.random());
+    this.lastSugarResource = null;
   }
 
   /* ---------- Main update ---------- */
@@ -71,6 +72,7 @@ export class Ant {
             this.carryingSugar = Math.min(this.target.amount, 10);
             this.target.amount -= this.carryingSugar;
             if (this.target.amount <= 0) this.target.depleted = true;
+            this.lastSugarResource = this.target; // Store the last sugar resource
             this.state = 'returning';
             this.target = null;
           } else {
@@ -83,10 +85,31 @@ export class Ant {
           if (dist(this, nest) < 1) {
             gameState.teams[this.team].sugar += this.carryingSugar;
             this.carryingSugar = 0;
-            this.state = 'wandering';
+            if (this.lastSugarResource && !this.lastSugarResource.depleted) {
+              this.state = 'returningToSugar';
+              this.target = this.lastSugarResource;
+            } else {
+              this.state = 'wandering';
+              this.lastSugarResource = null;
+            }
           } else {
             this.stepToward(nest.x, nest.y, delta, map);
             addPheromone(this.x, this.y, this.team);
+          }
+          break;
+        }
+
+        case 'returningToSugar': {
+          if (!this.target || this.target.depleted) {
+            this.state = 'wandering';
+            this.target = null;
+            this.lastSugarResource = null;
+            break;
+          }
+          if (dist(this, this.target) < 1) {
+            this.state = 'gathering';
+          } else {
+            this.stepToward(this.target.x, this.target.y, delta, map);
           }
           break;
         }
