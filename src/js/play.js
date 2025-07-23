@@ -6,7 +6,7 @@ import { Ant } from './ant.js';
 import { cleanupDead } from './combat.js';
 import { runAI } from './ai.js';
 import { updateUI, bindButtons } from './ui.js';
-import { TILE, MAP_W, MAP_H, ANT_COST, DEBUG } from './constants.js';
+import { TILE, MAP_W, MAP_H, ANT_COST, DEBUG, ANT_RADIUS, TEAM_COLORS } from './constants.js';
 import { addDamageText, updateFX, drawFX } from './fx.js';
 import { click } from './audio.js';
 
@@ -15,13 +15,7 @@ const PALETTE = {
   dirt:   '#6B4423',
   grass:  '#3A5F0B',
   dgrass: '#2B4708',
-  nest:   '#8B4513',
-  queen:  '#FFD700',
-  worker: '#90EE90',
-  private:'#FF0000',
-  general:'#0000FF',
-  artillery:'#800080',
-  defender:'#ADD8E6'
+  nest:   '#8B4513'
 };
 
 /* ---------- Canvas ---------- */
@@ -106,9 +100,9 @@ function drawAnt(a) {
   ctx.translate(px, py);
 
   // body
-  ctx.fillStyle = PALETTE[a.type] || '#FFF';
+  ctx.fillStyle = TEAM_COLORS[a.team] || '#FFF';
   ctx.beginPath();
-  ctx.arc(0, 0, 4, 0, Math.PI * 2);
+  ctx.arc(0, 0, ANT_RADIUS[a.type] || 4, 0, Math.PI * 2);
   ctx.fill();
 
   // simple legs (2-frame walk)

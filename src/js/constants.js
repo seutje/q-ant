@@ -23,6 +23,24 @@ export const ANT_STATS = {
   queen:    { hp: 500, dmg: 0, range: 0, speed: 0 }
 };
 
+/* ---------- Ant visual size ---------- */
+export const ANT_RADIUS = {
+  worker: 3,
+  private: 4,
+  general: 5,
+  artillery: 4,
+  defender: 4,
+  queen: 6
+};
+
+/* ---------- Team colors ---------- */
+export const TEAM_COLORS = [
+  '#90EE90', // Team 0 - light green
+  '#FF6B6B', // Team 1 - light red
+  '#6BA8FF', // Team 2 - light blue
+  '#FFD700'  // Team 3 - gold
+];
+
 /* ---------- Helpers ---------- */
 export function dist(a, b) {
   const dx = a.x - b.x;
