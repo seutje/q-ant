@@ -7,5 +7,6 @@ export const gameState = {
   ],
   ants: [],
   resources: [],
-  pheromones: []  // flat array [{x,y,team,strength}]
+  pheromones: [], // flat array [{x,y,team,strength}]
+  deadAnts: [0, 0, 0, 0]
 };
