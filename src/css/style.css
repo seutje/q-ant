@@ -113,3 +113,8 @@ body#startBody {
   padding:8px 18px;
   font-size:1rem;
 }
+#overlayStats {
+  font-size:1.2rem;
+  margin-top:10px;
+  text-align:center;
+}
