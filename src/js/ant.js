@@ -232,8 +232,20 @@ export class Ant {
 
   /* ---------- Low-level movement ---------- */
   move(dx, dy, map) {
-    this.x = Math.max(0.5, Math.min(MAP_W - 0.5, this.x + dx));
-    this.y = Math.max(0.5, Math.min(MAP_H - 0.5, this.y + dy));
+    const newX = this.x + dx;
+    const newY = this.y + dy;
+
+    // Check for horizontal boundaries
+    if (newX < 0.5 || newX > MAP_W - 0.5) {
+      this.wanderDirX *= -1; // Reverse horizontal direction
+    }
+    // Check for vertical boundaries
+    if (newY < 0.5 || newY > MAP_H - 0.5) {
+      this.wanderDirY *= -1; // Reverse vertical direction
+    }
+
+    this.x = Math.max(0.5, Math.min(MAP_W - 0.5, newX));
+    this.y = Math.max(0.5, Math.min(MAP_H - 0.5, newY));
   }
 
   stepToward(tx, ty, delta, map) {
