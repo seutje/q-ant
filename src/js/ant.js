@@ -28,6 +28,11 @@ export class Ant {
     this.wanderDirY = (this.rand() - 0.5) * 2;
     this.lastSugarResource = null;
     this.lastAttackTime = 0;
+
+    // track total ants spawned
+    if (!gameState.totalAnts) gameState.totalAnts = [{}, {}, {}, {}];
+    const totals = gameState.totalAnts[team];
+    totals[type] = (totals[type] || 0) + 1;
   }
 
   /* ---------- Main update ---------- */

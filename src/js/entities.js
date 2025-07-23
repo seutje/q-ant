@@ -8,5 +8,7 @@ export const gameState = {
   ants: [],
   resources: [],
   pheromones: [], // flat array [{x,y,team,strength}]
-  deadAnts: [0, 0, 0, 0]
+  deadAnts: [0, 0, 0, 0],
+  // track total ants spawned per team and type
+  totalAnts: [{}, {}, {}, {}]
 };
