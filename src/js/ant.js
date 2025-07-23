@@ -6,7 +6,10 @@ import * as prng from './prng.js';
 import { addDamageText } from './fx.js';
 
 export class Ant {
+  static nextId = 0;
+
   constructor(type, team, x, y) {
+    this.id = Ant.nextId++;
     this.type   = type;
     this.team   = team;
     this.x      = x;
@@ -126,7 +129,7 @@ export class Ant {
           if (dist(this, nest) < 1) {
             gameState.teams[this.team].sugar += this.carryingSugar;
             this.carryingSugar = 0;
-            if (this.lastSugarResource && !this.lastSugarResource.depleted) {
+            if (this.lastSugarResource) {
               this.state = 'returningToSugar';
               this.target = this.lastSugarResource;
               if (DEBUG && this.team === 0) {
@@ -151,11 +154,15 @@ export class Ant {
             console.log(`Worker ${this.id} (Team ${this.team}) - State: returningToSugar`);
           }
           if (!this.target || this.target.depleted) {
+            if (this.target) { // If there was a target, move to its location before wandering
+              this.x = this.target.x;
+              this.y = this.target.y;
+            }
             this.state = 'wandering';
             this.target = null;
             this.lastSugarResource = null;
             if (DEBUG && this.team === 0) {
-              console.log(`Worker ${this.id} (Team ${this.team}) - Target depleted or lost, transitioning to wandering.`);
+              console.log(`Worker ${this.id} (Team ${this.team}) - Target depleted or lost, transitioning to wandering from its last known location.`);
             }
             break;
           }
