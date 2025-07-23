@@ -153,7 +153,7 @@ function showGameOver(text) {
   document.getElementById('overlay').classList.remove('hidden');
 }
 
-document.getElementById('restartBtn').onclick = () => location.href = '../index.html';
+document.getElementById('restartBtn').onclick = () => location.href = 'index.html';
 
 /* ---------- Main loop ---------- */
 let last = 0;
