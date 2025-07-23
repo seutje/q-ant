@@ -35,6 +35,12 @@ export class Ant {
 
     const nest = gameState.teams[this.team].queen;
 
+    /* ---------- Queen ---------- */
+    if (this.type === 'queen') {
+      // Queens are stationary; nothing to do
+      return;
+    }
+
     /* ---------- Worker FSM ---------- */
     if (this.type === 'worker') {
       switch (this.state) {
@@ -190,15 +196,9 @@ export class Ant {
       return;
     }
 
-    /* ---------- Queen ---------- */
-    if (this.type === 'queen') {
-      // Queens are stationary; nothing to do
-      return;
-    }
-
     /* ---------- Soldier ---------- */
     const enemyAnts = gameState.ants.filter(a => a.team !== this.team && !a.dead);
-    const enemyQueen = gameState.teams.find(t => t.id !== this.team)?.queen;
+    const enemyQueens = gameState.ants.filter(a => a.type === 'queen' && a.team !== this.team && !a.dead);
 
     switch (this.state) {
       case 'defending': {
@@ -220,10 +220,16 @@ export class Ant {
         break;
       }
       case 'attacking': {
+        if (enemyQueens.length === 0) { // All enemy queens are dead
+          this.state = 'defending'; // Return to defending state
+          this.target = null;
+          break;
+        }
+
         if (!this.target || this.target.dead) {
           this.target = enemyAnts.length
             ? enemyAnts.reduce((a, b) => dist(this, a) < dist(this, b) ? a : b)
-            : enemyQueen;
+            : enemyQueens[0]; // Target the first available enemy queen if no other ants
         }
         if (!this.target) break;
         const d = dist(this, this.target);
