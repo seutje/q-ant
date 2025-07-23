@@ -41,11 +41,11 @@ export function updateUI() {
 }
 
 export function bindButtons(spawnFn, attackFn) {
-  document.getElementById('btnWorker').onclick    = () => spawnFn('worker');
-  document.getElementById('btnPrivate').onclick   = () => spawnFn('private');
-  document.getElementById('btnGeneral').onclick   = () => spawnFn('general');
-  document.getElementById('btnArtillery').onclick = () => spawnFn('artillery');
-  document.getElementById('btnDefender').onclick  = () => spawnFn('defender');
+  $('btnWorker').onclick    = () => spawnFn('worker');
+  $('btnPrivate').onclick   = () => spawnFn('private');
+  $('btnGeneral').onclick   = () => spawnFn('general');
+  $('btnArtillery').onclick = () => spawnFn('artillery');
+  $('btnDefender').onclick  = () => spawnFn('defender');
   $('btnAttack').onclick    = attackFn;
   // Disable buttons if queen is dead
   const playerQueenAlive = gameState.ants.some(a => a.team === 0 && a.type === 'queen' && !a.dead);
