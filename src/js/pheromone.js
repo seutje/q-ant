@@ -20,7 +20,7 @@ export function getPheromone(x, y, team) {
 }
 
 export function updatePheromones(delta) {
-  const decay = 0.005 * delta / 16;
+  const decay = 0.05 * delta / 16;
   for (let y = 0; y < MAP_H; y++) {
     for (let x = 0; x < MAP_W; x++) {
       for (let t = 0; t < 4; t++) {
@@ -28,4 +28,8 @@ export function updatePheromones(delta) {
       }
     }
   }
+}
+
+export function getPheromoneGrid() {
+  return GRID;
 }
