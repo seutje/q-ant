@@ -54,18 +54,25 @@ export class Ant {
 
           // follow pheromone or random
           let best = null, bestScore = 0;
+          let bestAngle = this.rand() * Math.PI * 2; // Start with a random angle
+
           if (!this.lastSugarResource) { // Only follow pheromones if not just returned from a sugar resource
             for (let a = 0; a < 8; a++) {
               const ang = Math.PI * 2 * a / 8;
               const dx = Math.cos(ang) * 2;
               const dy = Math.sin(ang) * 2;
               const score = getPheromone(this.x + dx, this.y + dy, this.team);
-              if (score > bestScore) { bestScore = score; best = { dx, dy }; }
+              if (score > bestScore) { bestScore = score; best = { dx, dy }; bestAngle = ang; }
             }
           }
 
           if (best) {
-            this.move(best.dx * delta * this.speed, best.dy * delta * this.speed, map);
+            // Move slightly towards the best pheromone direction, but also add some randomness
+            const currentAngle = Math.atan2(this.wanderDirY, this.wanderDirX);
+            const newAngle = currentAngle * 0.8 + bestAngle * 0.2 + (this.rand() - 0.5) * 0.5; // Blend and add noise
+            this.wanderDirX = Math.cos(newAngle);
+            this.wanderDirY = Math.sin(newAngle);
+            this.move(this.wanderDirX * delta * this.speed, this.wanderDirY * delta * this.speed, map);
             this.wanderTicks = 0; // Reset wander ticks if following pheromone
           } else {
             if (this.wanderTicks <= 0 || this.lastSugarResource) { // Force new wander direction if just returned from sugar
