@@ -54,32 +54,25 @@ export class Ant {
 
           // follow pheromone or random
           let best = null, bestScore = 0;
-          for (let a = 0; a < 8; a++) {
-            const ang = Math.PI * 2 * a / 8;
-            const dx = Math.cos(ang) * 2;
-            const dy = Math.sin(ang) * 2;
-            const score = getPheromone(this.x + dx, this.y + dy, this.team);
-            if (score > bestScore) { bestScore = score; best = { dx, dy }; }
+          if (!this.lastSugarResource) { // Only follow pheromones if not just returned from a sugar resource
+            for (let a = 0; a < 8; a++) {
+              const ang = Math.PI * 2 * a / 8;
+              const dx = Math.cos(ang) * 2;
+              const dy = Math.sin(ang) * 2;
+              const score = getPheromone(this.x + dx, this.y + dy, this.team);
+              if (score > bestScore) { bestScore = score; best = { dx, dy }; }
+            }
           }
+
           if (best) {
             this.move(best.dx * delta * this.speed, best.dy * delta * this.speed, map);
             this.wanderTicks = 0; // Reset wander ticks if following pheromone
           } else {
-            // If near nest, move away
-            if (dist(this, nest) < 5) {
-              const dx = this.x - nest.x;
-              const dy = this.y - nest.y;
-              const len = Math.sqrt(dx * dx + dy * dy) || 1;
-              this.wanderDirX = dx / len;
-              this.wanderDirY = dy / len;
-              this.wanderTicks = Math.floor(this.rand() * 60) + 30; // Move away for a short duration
-              if (DEBUG && this.team === 0) {
-                console.log(`Worker ${this.id} (Team ${this.team}) - Near nest, moving away.`);
-              }
-            } else if (this.wanderTicks <= 0) {
+            if (this.wanderTicks <= 0 || this.lastSugarResource) { // Force new wander direction if just returned from sugar
               this.wanderDirX = (this.rand() - 0.5) * 2;
               this.wanderDirY = (this.rand() - 0.5) * 2;
               this.wanderTicks = Math.floor(this.rand() * 120) + 60; // Wander for 1-2 seconds (60-120 ticks)
+              this.lastSugarResource = null; // Clear last sugar resource after starting to wander
               if (DEBUG && this.team === 0) {
                 console.log(`Worker ${this.id} (Team ${this.team}) - Starting new random wander direction.`);
               }
@@ -153,25 +146,35 @@ export class Ant {
           if (DEBUG && this.team === 0) {
             console.log(`Worker ${this.id} (Team ${this.team}) - State: returningToSugar`);
           }
-          if (!this.target || this.target.depleted) {
-            if (this.target) { // If there was a target, move to its location before wandering
-              this.x = this.target.x;
-              this.y = this.target.y;
-            }
+          // If target is invalid (e.g., null), transition to wandering from current location
+          if (!this.target) {
             this.state = 'wandering';
-            this.target = null;
-            this.lastSugarResource = null;
+            this.lastSugarResource = null; // Clear last sugar resource
             if (DEBUG && this.team === 0) {
-              console.log(`Worker ${this.id} (Team ${this.team}) - Target depleted or lost, transitioning to wandering from its last known location.`);
+              console.log(`Worker ${this.id} (Team ${this.team}) - Target lost, transitioning to wandering.`);
             }
             break;
           }
+
+          // If reached the target location
           if (dist(this, this.target) < 1) {
-            this.state = 'gathering';
-            if (DEBUG && this.team === 0) {
-              console.log(`Worker ${this.id} (Team ${this.team}) - Reached sugar resource, transitioning to gathering.`);
+            if (this.target.depleted) {
+              // If resource is depleted, transition to wandering from this location
+              this.state = 'wandering';
+              this.target = null; // Clear target
+              this.lastSugarResource = null; // Clear last sugar resource
+              if (DEBUG && this.team === 0) {
+                console.log(`Worker ${this.id} (Team ${this.team}) - Reached depleted sugar resource, transitioning to wandering.`);
+              }
+            } else {
+              // If resource is not depleted, transition to gathering
+              this.state = 'gathering';
+              if (DEBUG && this.team === 0) {
+                console.log(`Worker ${this.id} (Team ${this.team}) - Reached sugar resource, transitioning to gathering.`);
+              }
             }
           } else {
+            // Otherwise, keep moving towards the target
             this.stepToward(this.target.x, this.target.y, delta, map);
           }
           break;
