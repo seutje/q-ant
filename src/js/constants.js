@@ -23,6 +23,16 @@ export const ANT_STATS = {
   queen:    { hp: 500, dmg: 0, range: 0, speed: 0 }
 };
 
+/* ---------- Ant visual size ---------- */
+export const ANT_RADIUS = {
+  worker: 3,
+  private: 4,
+  general: 5,
+  artillery: 4,
+  defender: 4,
+  queen: 6
+};
+
 /* ---------- Helpers ---------- */
 export function dist(a, b) {
   const dx = a.x - b.x;
