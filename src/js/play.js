@@ -144,6 +144,15 @@ function checkWinLoss() {
 
 function showGameOver(text) {
   document.getElementById('overlayText').textContent = text;
+  const statsDiv = document.getElementById('overlayStats');
+  const counts = {};
+  gameState.ants
+    .filter(a => a.team === 0 && !a.dead)
+    .forEach(a => counts[a.type] = (counts[a.type] || 0) + 1);
+  const lines = Object.keys(counts)
+    .sort()
+    .map(type => `${type.charAt(0).toUpperCase() + type.slice(1)}: ${counts[type]}`);
+  statsDiv.innerHTML = lines.join('<br>');
   document.getElementById('overlay').classList.remove('hidden');
 }
 
