@@ -2,6 +2,7 @@
 export const TILE  = 8;
 export const MAP_W = 100;
 export const MAP_H = 75;
+export const DEBUG = false;
 
 /* ---------- Unit prices ---------- */
 export const ANT_COST = {

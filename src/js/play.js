@@ -1,12 +1,12 @@
 /* ---------- Imports ---------- */
 import { generateMap, NESTS } from './mapGen.js';
 import { gameState } from './entities.js';
-import { updatePheromones } from './pheromone.js';
+import { updatePheromones, getPheromoneGrid } from './pheromone.js';
 import { Ant } from './ant.js';
 import { cleanupDead } from './combat.js';
 import { runAI } from './ai.js';
 import { updateUI, bindButtons } from './ui.js';
-import { TILE, MAP_W, MAP_H, ANT_COST } from './constants.js';
+import { TILE, MAP_W, MAP_H, ANT_COST, DEBUG } from './constants.js';
 import { addDamageText, updateFX, drawFX } from './fx.js';
 import { click } from './audio.js';
 
@@ -78,6 +78,20 @@ updateUI();
 function drawTile(x, y, type) {
   ctx.fillStyle = [PALETTE.dirt, PALETTE.grass, PALETTE.dgrass][type];
   ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
+}
+
+function drawPheromones() {
+  if (!DEBUG) return;
+  const grid = getPheromoneGrid();
+  for (let y = 0; y < MAP_H; y++) {
+    for (let x = 0; x < MAP_W; x++) {
+      const strength = grid[y][x][0]; // Assuming team 0 for now
+      if (strength > 0) {
+        ctx.fillStyle = `rgba(255, 0, 0, ${strength / 10})`; // Red pheromones, opacity based on strength
+        ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
+      }
+    }
+  }
 }
 
 function drawAnt(a) {
@@ -169,6 +183,9 @@ function gameLoop(ts) {
   // terrain
   for (let y = 0; y < MAP_H; y++)
     for (let x = 0; x < MAP_W; x++) drawTile(x, y, map[y][x]);
+
+  // pheromones
+  drawPheromones();
 
   // nests
   NESTS.forEach(n => {
