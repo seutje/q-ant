@@ -2,7 +2,7 @@
 import { gameState } from './entities.js';
 import { dist, TILE, MAP_W, MAP_H, ANT_STATS } from './constants.js';
 import { addPheromone, getPheromone } from './pheromone.js';
-import mulberry32 from './prng.js';
+import * as prng from './prng.js';
 import { addDamageText } from './fx.js';
 
 export class Ant {
@@ -20,7 +20,9 @@ export class Ant {
                 : type === 'worker' ? 'wandering'
                 : 'defending';
     this.target = null;
-    this.rand   = mulberry32(team * 9999 + Math.random());
+    this.rand   = prng.default(team * 9999 + Math.random());
+    this.wanderDirX = (this.rand() - 0.5) * 2;
+    this.wanderDirY = (this.rand() - 0.5) * 2;
     this.lastSugarResource = null;
   }
 
@@ -34,7 +36,7 @@ export class Ant {
     if (this.type === 'worker') {
       switch (this.state) {
         case 'wandering': {
-          const nearby = resources.filter(r => !r.depleted && dist(this, r) < 30);
+          const nearby = resources.filter(r => !r.depleted && dist(this, r) < 15);
           if (nearby.length) {
             this.target = nearby.sort((a, b) => dist(this, a) - dist(this, b))[0];
             this.state = 'gathering';
@@ -52,12 +54,20 @@ export class Ant {
           }
           if (best) {
             this.move(best.dx * delta * this.speed, best.dy * delta * this.speed, map);
+            this.wanderTicks = 0; // Reset wander ticks if following pheromone
           } else {
+            // Wander in a consistent direction for a while
+            if (this.wanderTicks <= 0) {
+              this.wanderDirX = (this.rand() - 0.5) * 2;
+              this.wanderDirY = (this.rand() - 0.5) * 2;
+              this.wanderTicks = Math.floor(this.rand() * 120) + 60; // Wander for 1-2 seconds (60-120 ticks)
+            }
             this.move(
-              (this.rand() - 0.5) * 2 * delta * this.speed,
-              (this.rand() - 0.5) * 2 * delta * this.speed,
+              this.wanderDirX * delta * this.speed,
+              this.wanderDirY * delta * this.speed,
               map
             );
+            this.wanderTicks--;
           }
           break;
         }
