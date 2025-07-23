@@ -125,8 +125,25 @@ function drawAnt(a) {
 }
 
 /* ---------- Win/Loss ---------- */
+let playerFinalStats = null;
+
+function getPlayerStats() {
+  const counts = {};
+  gameState.ants
+    .filter(a => a.team === 0 && !a.dead)
+    .forEach(a => counts[a.type] = (counts[a.type] || 0) + 1);
+  return counts;
+}
+
 function checkWinLoss() {
   if (!gameState.ants.some(a => a.type === 'queen')) return; // wait until queens exist
+
+  const playerQueenAlive = gameState.ants.some(
+    a => a.type === 'queen' && a.team === 0 && !a.dead
+  );
+  if (!playerQueenAlive && playerFinalStats === null) {
+    playerFinalStats = getPlayerStats();
+  }
 
   const alive = gameState.teams.filter(t =>
     gameState.ants.some(a => a.type === 'queen' && a.team === t.id && !a.dead)
@@ -135,24 +152,21 @@ function checkWinLoss() {
     if (alive[0].id === 0) {
       showGameOver('You Win!');
     } else {
-      showGameOver(`Team ${alive[0].id} Wins!`);
+      showGameOver(`Team ${alive[0].id} Wins!`, playerFinalStats);
     }
   } else if (alive.length <= 1) {
-    showGameOver('Game Over');
+    showGameOver('Game Over', playerFinalStats);
   }
 }
 
-function showGameOver(text) {
+function showGameOver(text, counts) {
   document.getElementById('overlayText').textContent = text;
   const statsDiv = document.getElementById('overlayStats');
   if (statsDiv) {
-    const counts = {};
-    gameState.ants
-      .filter(a => a.team === 0 && !a.dead)
-      .forEach(a => counts[a.type] = (counts[a.type] || 0) + 1);
-    const lines = Object.keys(counts)
+    const stats = counts || getPlayerStats();
+    const lines = Object.keys(stats)
       .sort()
-      .map(type => `${type.charAt(0).toUpperCase() + type.slice(1)}: ${counts[type]}`);
+      .map(type => `${type.charAt(0).toUpperCase() + type.slice(1)}: ${stats[type]}`);
     statsDiv.innerHTML = lines.join('<br>');
   }
   document.getElementById('overlay').classList.remove('hidden');
