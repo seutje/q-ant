@@ -27,6 +27,7 @@ export class Ant {
     this.wanderDirX = (this.rand() - 0.5) * 2;
     this.wanderDirY = (this.rand() - 0.5) * 2;
     this.lastSugarResource = null;
+    this.lastAttackTime = 0;
   }
 
   /* ---------- Main update ---------- */
@@ -270,10 +271,15 @@ export class Ant {
 
   attack(target) {
     if (this.type === 'defender') return; // Defender ants do not attack
+    if (this.attackSpeed && (performance.now() - this.lastAttackTime < this.attackSpeed)) {
+      return; // Not ready to attack yet
+    }
+
     if (target.hp !== undefined) {
       const dmg = this.dmg;
       target.hp -= dmg;
       addDamageText(target.x, target.y, dmg);
+      this.lastAttackTime = performance.now();
     }
   }
 }
