@@ -153,6 +153,8 @@ function showGameOver(text) {
     const lines = Object.keys(counts)
       .sort()
       .map(type => `${type.charAt(0).toUpperCase() + type.slice(1)}: ${counts[type]}`);
+    const dead = gameState.deadAnts ? gameState.deadAnts[0] : 0;
+    lines.push(`Dead ants: ${dead}`);
     statsDiv.innerHTML = lines.join('<br>');
   }
   document.getElementById('overlay').classList.remove('hidden');
