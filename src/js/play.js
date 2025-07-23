@@ -128,11 +128,8 @@ function drawAnt(a) {
 let playerFinalStats = null;
 
 function getPlayerStats() {
-  const counts = {};
-  gameState.ants
-    .filter(a => a.team === 0 && !a.dead)
-    .forEach(a => counts[a.type] = (counts[a.type] || 0) + 1);
-  return counts;
+  if (!gameState.totalAnts) return {};
+  return { ...gameState.totalAnts[0] };
 }
 
 function checkWinLoss() {
