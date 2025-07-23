@@ -56,6 +56,11 @@ gameState.teams.forEach(t => {
 function spawnPlayerAnt(type) {
   const cost = ANT_COST[type];
   const team = gameState.teams[0];
+  // Check if the queen is alive before allowing birthing
+  const queenAlive = gameState.ants.some(a => a.type === 'queen' && a.team === team.id && !a.dead);
+  if (!queenAlive) {
+    return;
+  }
   if (team.sugar < cost) return;
   team.sugar -= cost;
   const { x, y } = team.queen;

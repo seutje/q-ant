@@ -12,10 +12,12 @@ export function updateUI() {
   $('playerQueenHp').textContent = playerQueen ? playerQueen.hp.toFixed(0) : 'N/A';
 
   // disable buttons if not enough sugar
+  const playerQueenAlive = gameState.ants.some(a => a.team === 0 && a.type === 'queen' && !a.dead);
   Object.keys(ANT_COST).forEach(type => {
     $(`btn${type.charAt(0).toUpperCase() + type.slice(1)}`).disabled =
-      playerTeam.sugar < ANT_COST[type];
+      playerTeam.sugar < ANT_COST[type] || !playerQueenAlive;
   });
+  $('btnAttack').disabled = !playerQueenAlive;
 
   // AI team stats
   gameState.teams.forEach(team => {
@@ -44,5 +46,13 @@ export function bindButtons(spawnFn, attackFn) {
   document.getElementById('btnGeneral').onclick   = () => spawnFn('general');
   document.getElementById('btnArtillery').onclick = () => spawnFn('artillery');
   document.getElementById('btnDefender').onclick  = () => spawnFn('defender');
-  document.getElementById('btnAttack').onclick    = attackFn;
+  $('btnAttack').onclick    = attackFn;
+  // Disable buttons if queen is dead
+  const playerQueenAlive = gameState.ants.some(a => a.team === 0 && a.type === 'queen' && !a.dead);
+  if (!playerQueenAlive) {
+    Object.keys(ANT_COST).forEach(type => {
+      $(`btn${type.charAt(0).toUpperCase() + type.slice(1)}`).disabled = true;
+    });
+    $('btnAttack').disabled = true;
+  }
 }
