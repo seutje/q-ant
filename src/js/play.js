@@ -209,4 +209,15 @@ function gameLoop(ts) {
   requestAnimationFrame(gameLoop);
 }
 
+function handleResize() {
+  const gameArea = document.getElementById('gameArea');
+  const widthRatio = window.innerWidth / 800;
+  const heightRatio = window.innerHeight / 600;
+  const bestRatio = Math.min(widthRatio, heightRatio);
+  gameArea.style.transform = `scale(${bestRatio})`;
+}
+
+window.addEventListener('resize', handleResize);
+document.addEventListener('DOMContentLoaded', handleResize);
+
 requestAnimationFrame(gameLoop);
