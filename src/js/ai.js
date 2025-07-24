@@ -9,6 +9,14 @@ export function runAI(delta) {
   gameState.teams.forEach((team, tid) => {
     if (tid === 0) return; // skip human
 
+    // Skip AI actions if the team's queen is dead
+    const queenAlive = gameState.ants.some(
+      a => a.type === 'queen' && a.team === tid && !a.dead
+    );
+    if (!queenAlive) {
+      return;
+    }
+
     const now = performance.now();
     const ants = gameState.ants.filter(a => a.team === tid && !a.dead);
     const workers = ants.filter(a => a.type === 'worker').length;
