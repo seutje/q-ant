@@ -161,9 +161,10 @@ function showGameOver(text, counts) {
   const statsDiv = document.getElementById('overlayStats');
   if (statsDiv) {
     const stats = counts || getPlayerStats();
-    const lines = Object.keys(stats)
-      .sort()
-      .map(type => `${type.charAt(0).toUpperCase() + type.slice(1)}: ${stats[type]}`);
+    const types = ['worker', 'private', 'general', 'artillery', 'defender', 'queen'];
+    const lines = types.map(type =>
+      `${type.charAt(0).toUpperCase() + type.slice(1)}: ${stats[type] || 0}`
+    );
     const dead = gameState.deadAnts ? gameState.deadAnts[0] : 0;
     lines.push(`Dead ants: ${dead}`);
     statsDiv.innerHTML = lines.join('<br>');
