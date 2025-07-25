@@ -32,6 +32,13 @@ export const TEAM_COLORS = [
   '#FFD700'  // Team 3 - gold
 ];
 
+/* ---------- Sugar resource types ---------- */
+export const SUGAR_TYPES = [
+  { name: 'Soda Puddle',       amount: 100, rarity: 0.6 },
+  { name: 'Corn Syrup Puddle', amount: 200, rarity: 0.3 },
+  { name: 'Energy Drink',      amount: 400, rarity: 0.1 }
+];
+
 /* ---------- Helpers ---------- */
 export function dist(a, b) {
   const dx = a.x - b.x;
