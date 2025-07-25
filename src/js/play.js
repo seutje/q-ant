@@ -103,7 +103,9 @@ function drawAnt(a) {
   ctx.fillStyle = TEAM_COLORS[a.team] || '#FFF';
   ctx.beginPath();
   const bodyR = ANT_RADIUS[a.type] || 4;
-  ctx.arc(0, 0, bodyR, 0, Math.PI * 2);
+  const bodyRx = bodyR * 0.6; // flat width
+  const bodyRy = bodyR * 1.2; // elongated height
+  ctx.ellipse(0, 0, bodyRx, bodyRy, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
@@ -112,7 +114,7 @@ function drawAnt(a) {
   // head attached below the body
   const headR = bodyR * 0.5;
   ctx.beginPath();
-  ctx.arc(0, bodyR + headR, headR, 0, Math.PI * 2);
+  ctx.arc(0, bodyRy + headR - 2, headR, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
 
@@ -120,7 +122,7 @@ function drawAnt(a) {
   const wiggle = Math.sin(performance.now() * 0.01 * a.speed * 100) * 2;
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
-  const r = ANT_RADIUS[a.type] || 4;
+  const r = bodyRx;
 
   // draw three pairs of legs with slight diagonal offsets
   // keep the diagonal legs closer to the middle pair
