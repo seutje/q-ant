@@ -124,18 +124,20 @@ function drawAnt(a) {
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
 
-  // draw three pairs of legs with slight diagonal offsets
-  // keep the diagonal legs closer to the middle pair
+  // draw three pairs of legs that radiate from the long side of the body
   const legAngles = [0, Math.PI / 8, -Math.PI / 8];
-  // legs originate from the rear of the body
-  const legAnchorX = -bodyW;
-  legAngles.forEach(angle => {
+  const legOffsets = [-bodyH * 0.5, 0, bodyH * 0.5];
+  const legLen = bodyW * 0.7;
+  legAngles.forEach((angle, i) => {
+    const offsetY = legOffsets[i];
     [-1, 1].forEach(side => {
-      const startY = Math.cos(angle) * r * side;
-      const endY = startY + Math.sin(angle) * r * side + wiggle * side;
+      const anchorX = bodyW * side;
+      const anchorY = offsetY;
+      const dx = Math.cos(angle) * legLen * side;
+      const dy = Math.sin(angle) * legLen * side + wiggle * side;
       ctx.beginPath();
-      ctx.moveTo(legAnchorX, startY);
-      ctx.lineTo(legAnchorX - bodyW * 0.5, endY);
+      ctx.moveTo(anchorX, anchorY);
+      ctx.lineTo(anchorX + dx, anchorY + dy);
       ctx.stroke();
     });
   });
