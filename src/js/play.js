@@ -127,6 +127,7 @@ function checkWinLoss() {
 }
 
 function showGameOver(text, counts) {
+  if (window.demoMode) return;
   document.getElementById('overlayText').textContent = text;
   const statsDiv = document.getElementById('overlayStats');
   if (statsDiv) {
