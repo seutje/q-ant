@@ -18,6 +18,10 @@ body {
   touch-action: manipulation;
 }
 
+.hidden {
+  display: none;
+}
+
 .ui-panel {
   position:absolute;
   background:#000c;
