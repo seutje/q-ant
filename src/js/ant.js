@@ -1,6 +1,6 @@
 /* ---------- Imports ---------- */
 import { gameState } from './entities.js';
-import { dist, TILE, MAP_W, MAP_H, ANT_STATS, DEBUG, ANT_RADIUS, TEAM_COLORS } from './constants.js';
+import { dist, TILE, MAP_W, MAP_H, ANT_STATS, DEBUG, TEAM_COLORS } from './constants.js';
 import { addPheromone, getPheromone } from './pheromone.js';
 import * as prng from './prng.js';
 import { addDamageText } from './fx.js';
@@ -303,7 +303,7 @@ export class Ant {
     // body
     ctx.fillStyle = TEAM_COLORS[this.team] || '#FFF';
     ctx.beginPath();
-    const bodyR = ANT_RADIUS[this.type] || 4;
+    const bodyR = this.size || 4;
     const bodyRx = bodyR * 0.6; // flat width
     const bodyRy = bodyR * 1.2; // elongated height
     ctx.ellipse(0, 0, bodyRx, bodyRy, 0, 0, Math.PI * 2);
