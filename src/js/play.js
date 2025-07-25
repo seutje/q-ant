@@ -103,23 +103,22 @@ function getPlayerStats() {
 }
 
 function checkWinLoss() {
-  if (!gameState.ants.some(a => a.type === 'queen')) return; // wait until queens exist
+  const queens = gameState.ants.filter(a => a.type === 'queen' && !a.dead);
+  const queenCount = queens.length;
 
-  const playerQueenAlive = gameState.ants.some(
-    a => a.type === 'queen' && a.team === 0 && !a.dead
-  );
+  if (window.demoMode && queenCount < 2) {
+    location.reload();
+    return;
+  }
+
+  const playerQueenAlive = queens.some(q => q.team === 0);
   if (!playerQueenAlive && playerFinalStats === null) {
     playerFinalStats = getPlayerStats();
   }
 
   const alive = gameState.teams.filter(t =>
-    gameState.ants.some(a => a.type === 'queen' && a.team === t.id && !a.dead)
+    queens.some(q => q.team === t.id)
   );
-
-  if (window.demoMode && alive.length <= 1) {
-    location.reload();
-    return;
-  }
 
   if (alive.length === 1) {
     if (alive[0].id === 0) {
