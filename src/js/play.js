@@ -115,6 +115,12 @@ function checkWinLoss() {
   const alive = gameState.teams.filter(t =>
     gameState.ants.some(a => a.type === 'queen' && a.team === t.id && !a.dead)
   );
+
+  if (window.demoMode && alive.length <= 1) {
+    location.reload();
+    return;
+  }
+
   if (alive.length === 1) {
     if (alive[0].id === 0) {
       showGameOver('You Win!');
@@ -127,6 +133,7 @@ function checkWinLoss() {
 }
 
 function showGameOver(text, counts) {
+  if (window.demoMode) return;
   document.getElementById('overlayText').textContent = text;
   const statsDiv = document.getElementById('overlayStats');
   if (statsDiv) {

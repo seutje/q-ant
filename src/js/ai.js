@@ -7,7 +7,7 @@ let lastAttack = [0, 0, 0, 0];
 
 export function runAI(delta) {
   gameState.teams.forEach((team, tid) => {
-    if (tid === 0) return; // skip human
+    if (!window.demoMode && tid === 0) return; // skip human unless demo
 
     // Skip AI actions if the team's queen is dead
     const queenAlive = gameState.ants.some(

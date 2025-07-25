@@ -87,6 +87,11 @@ body#startBody {
   color:#fff;
 }
 #startScreen {
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  z-index:5;
   background:#000c;
   padding:30px 40px;
   border-radius:8px;
