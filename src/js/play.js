@@ -98,6 +98,8 @@ function drawAnt(a) {
   const py = a.y * TILE;
   ctx.save();
   ctx.translate(px, py);
+  // rotate so the head faces up
+  ctx.rotate(-Math.PI / 2);
 
   // body: an oval where the legs attach
   ctx.fillStyle = TEAM_COLORS[a.team] || '#FFF';
@@ -125,13 +127,15 @@ function drawAnt(a) {
   // draw three pairs of legs with slight diagonal offsets
   // keep the diagonal legs closer to the middle pair
   const legAngles = [0, Math.PI / 8, -Math.PI / 8];
+  // legs originate from the rear of the body
+  const legAnchorX = -bodyW;
   legAngles.forEach(angle => {
     [-1, 1].forEach(side => {
-      const dx = Math.cos(angle) * bodyW * side;
-      const dy = Math.sin(angle) * r + wiggle * side;
+      const startY = Math.cos(angle) * r * side;
+      const endY = startY + Math.sin(angle) * r * side + wiggle * side;
       ctx.beginPath();
-      ctx.moveTo(dx, dy);
-      ctx.lineTo(dx * 1.5, dy * 2);
+      ctx.moveTo(legAnchorX, startY);
+      ctx.lineTo(legAnchorX - bodyW * 0.5, endY);
       ctx.stroke();
     });
   });
