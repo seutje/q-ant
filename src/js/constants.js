@@ -23,6 +23,14 @@ export const ANT_STATS = {
   queen:    { hp: 500, dmg: 0, range: 0, speed: 0 }
 };
 
+/*
+ * Compute a visual radius for an ant given its total hit points. This uses a
+ * logarithmic scale so high HP ants appear larger without becoming gigantic.
+ */
+export function radiusFromHP(hp) {
+  return 1 + 2 * Math.log10(hp);
+}
+
 /* ---------- Ant visual size ---------- */
 export const ANT_RADIUS = {
   worker: 3,

@@ -6,7 +6,7 @@ import { Ant } from './ant.js';
 import { cleanupDead } from './combat.js';
 import { runAI } from './ai.js';
 import { updateUI, bindButtons } from './ui.js';
-import { TILE, MAP_W, MAP_H, ANT_COST, DEBUG, ANT_RADIUS, TEAM_COLORS } from './constants.js';
+import { TILE, MAP_W, MAP_H, ANT_COST, DEBUG, radiusFromHP, TEAM_COLORS } from './constants.js';
 import { addDamageText, updateFX, drawFX } from './fx.js';
 import { click } from './audio.js';
 
@@ -102,7 +102,8 @@ function drawAnt(a) {
   // body
   ctx.fillStyle = TEAM_COLORS[a.team] || '#FFF';
   ctx.beginPath();
-  ctx.arc(0, 0, ANT_RADIUS[a.type] || 4, 0, Math.PI * 2);
+  const radius = radiusFromHP(a.maxHp);
+  ctx.arc(0, 0, radius, 0, Math.PI * 2);
   ctx.fill();
 
   // simple legs (2-frame walk)
