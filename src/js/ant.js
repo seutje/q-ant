@@ -1,6 +1,6 @@
 /* ---------- Imports ---------- */
 import { gameState } from './entities.js';
-import { dist, TILE, MAP_W, MAP_H, ANT_STATS, DEBUG } from './constants.js';
+import { dist, TILE, MAP_W, MAP_H, ANT_STATS, DEBUG, ANT_RADIUS, TEAM_COLORS } from './constants.js';
 import { addPheromone, getPheromone } from './pheromone.js';
 import * as prng from './prng.js';
 import { addDamageText } from './fx.js';
@@ -290,6 +290,64 @@ export class Ant {
       target.hp -= dmg;
       addDamageText(target.x, target.y, dmg);
       this.lastAttackTime = performance.now();
+    }
+  }
+
+  draw(ctx) {
+    const px = this.x * TILE;
+    const py = this.y * TILE;
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.rotate((this.dir || 0) - Math.PI / 2);
+
+    // body
+    ctx.fillStyle = TEAM_COLORS[this.team] || '#FFF';
+    ctx.beginPath();
+    const bodyR = ANT_RADIUS[this.type] || 4;
+    const bodyRx = bodyR * 0.6; // flat width
+    const bodyRy = bodyR * 1.2; // elongated height
+    ctx.ellipse(0, 0, bodyRx, bodyRy, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // head attached below the body
+    const headR = bodyR * 0.5;
+    ctx.beginPath();
+    ctx.arc(0, bodyRy + headR - 2, headR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // simple legs (2-frame walk)
+    const wiggle = Math.sin(performance.now() * 0.01 * this.speed * 100) * 2;
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    const r = bodyRx;
+
+    // draw three pairs of legs with slight diagonal offsets
+    // keep the diagonal legs closer to the middle pair
+    const legAngles = [0, Math.PI / 8, -Math.PI / 8];
+    legAngles.forEach(angle => {
+      [-1, 1].forEach(side => {
+        const dx = Math.cos(angle) * r * side;
+        const dy = Math.sin(angle) * r + wiggle * side;
+        ctx.beginPath();
+        ctx.moveTo(dx, dy);
+        ctx.lineTo(dx * 2, dy * 2);
+        ctx.stroke();
+      });
+    });
+
+    ctx.restore();
+
+    // health bar
+    if (this.hp < this.maxHp) {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(px - 4, py - 10, 8, 2);
+      ctx.fillStyle = this.hp > this.maxHp * 0.5 ? '#0F0'
+                    : this.hp > this.maxHp * 0.2 ? '#FF0' : '#F00';
+      ctx.fillRect(px - 4, py - 10, (this.hp / this.maxHp) * 8, 2);
     }
   }
 }

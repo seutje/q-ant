@@ -6,7 +6,7 @@ import { Ant } from './ant.js';
 import { cleanupDead } from './combat.js';
 import { runAI } from './ai.js';
 import { updateUI, bindButtons } from './ui.js';
-import { TILE, MAP_W, MAP_H, ANT_COST, DEBUG, ANT_RADIUS, TEAM_COLORS } from './constants.js';
+import { TILE, MAP_W, MAP_H, ANT_COST, DEBUG } from './constants.js';
 import { addDamageText, updateFX, drawFX } from './fx.js';
 import { click } from './audio.js';
 
@@ -93,62 +93,6 @@ function drawPheromones() {
   }
 }
 
-function drawAnt(a) {
-  const px = a.x * TILE;
-  const py = a.y * TILE;
-  ctx.save();
-  ctx.translate(px, py);
-  ctx.rotate((a.dir || 0) - Math.PI / 2);
-
-  // body
-  ctx.fillStyle = TEAM_COLORS[a.team] || '#FFF';
-  ctx.beginPath();
-  const bodyR = ANT_RADIUS[a.type] || 4;
-  const bodyRx = bodyR * 0.6; // flat width
-  const bodyRy = bodyR * 1.2; // elongated height
-  ctx.ellipse(0, 0, bodyRx, bodyRy, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = '#000';
-  ctx.lineWidth = 1;
-  ctx.stroke();
-
-  // head attached below the body
-  const headR = bodyR * 0.5;
-  ctx.beginPath();
-  ctx.arc(0, bodyRy + headR - 2, headR, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.stroke();
-
-  // simple legs (2-frame walk)
-  const wiggle = Math.sin(performance.now() * 0.01 * a.speed * 100) * 2;
-  ctx.strokeStyle = '#000';
-  ctx.lineWidth = 1;
-  const r = bodyRx;
-
-  // draw three pairs of legs with slight diagonal offsets
-  // keep the diagonal legs closer to the middle pair
-  const legAngles = [0, Math.PI / 8, -Math.PI / 8];
-  legAngles.forEach(angle => {
-    [-1, 1].forEach(side => {
-      const dx = Math.cos(angle) * r * side;
-      const dy = Math.sin(angle) * r + wiggle * side;
-      ctx.beginPath();
-      ctx.moveTo(dx, dy);
-      ctx.lineTo(dx * 2, dy * 2);
-      ctx.stroke();
-    });
-  });
-
-  ctx.restore();
-
-  // health bar
-  if (a.hp < a.maxHp) {
-    ctx.fillStyle = '#000';
-    ctx.fillRect(px - 4, py - 10, 8, 2);
-    ctx.fillStyle = a.hp > a.maxHp * 0.5 ? '#0F0' : a.hp > a.maxHp * 0.2 ? '#FF0' : '#F00';
-    ctx.fillRect(px - 4, py - 10, (a.hp / a.maxHp) * 8, 2);
-  }
-}
 
 /* ---------- Win/Loss ---------- */
 let playerFinalStats = null;
@@ -252,7 +196,7 @@ function gameLoop(ts) {
   });
 
   // ants
-  gameState.ants.forEach(drawAnt);
+  gameState.ants.forEach(a => a.draw(ctx));
   drawFX(ctx);
 
   last = ts;
