@@ -6,10 +6,10 @@ export const DEBUG = false;
 
 /* ---------- Unit prices ---------- */
 export const ANT_COST = {
-  worker:    8,
-  private:   12,
+  worker:    10,
+  private:   15,
   general:   40,
-  artillery: 25,
+  artillery: 30,
   defender:  15
 };
 
