@@ -4,7 +4,8 @@ const startBtn  = document.getElementById('startBtn');
 
 // Show a demo match using AI for all teams
 window.demoMode = true;
-document.getElementById('gameArea').classList.remove('hidden');
+['gameArea', 'ui-team-0', 'ui-team-1', 'ui-team-2', 'ui-team-3']
+  .forEach(id => document.getElementById(id).classList.remove('hidden'));
 import('./play.js');
 
 randomBtn.onclick = () => {
