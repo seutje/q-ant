@@ -25,11 +25,11 @@ export const ANT_STATS = {
 
 /* ---------- Ant visual size ---------- */
 export const ANT_RADIUS = {
-  worker: 3,
-  private: 4,
-  general: 5,
-  artillery: 4,
-  defender: 4,
+  worker: 1,
+  private: 3,
+  general: 4,
+  artillery: 2,
+  defender: 5,
   queen: 6
 };
 
