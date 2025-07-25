@@ -10,7 +10,8 @@ seedInput.value = sessionStorage.getItem('qantSeed') || '';
 function updateSeedAndRestart() {
   const seed = seedInput.value || 12345;
   sessionStorage.setItem('qantSeed', seed);
-  if (window.demoMode) {
+  if (window.demoMode && !window.isReloading) {
+    window.isReloading = true;
     location.reload();
   }
 }
