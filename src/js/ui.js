@@ -11,13 +11,13 @@ export function updateUI() {
   const playerQueen = gameState.ants.find(a => a.team === 0 && a.type === 'queen');
   $('playerQueenHp').textContent = playerQueen ? playerQueen.hp.toFixed(0) : 'N/A';
 
-  // disable buttons if not enough sugar
+  // disable buttons if not enough sugar or in demo mode
   const playerQueenAlive = gameState.ants.some(a => a.team === 0 && a.type === 'queen' && !a.dead);
   Object.keys(ANT_COST).forEach(type => {
     $(`btn${type.charAt(0).toUpperCase() + type.slice(1)}`).disabled =
-      playerTeam.sugar < ANT_COST[type] || !playerQueenAlive;
+      window.demoMode || playerTeam.sugar < ANT_COST[type] || !playerQueenAlive;
   });
-  $('btnAttack').disabled = !playerQueenAlive;
+  $('btnAttack').disabled = window.demoMode || !playerQueenAlive;
 
   // AI team stats
   gameState.teams.forEach(team => {
@@ -47,9 +47,9 @@ export function bindButtons(spawnFn, attackFn) {
   $('btnArtillery').onclick = () => spawnFn('artillery');
   $('btnDefender').onclick  = () => spawnFn('defender');
   $('btnAttack').onclick    = attackFn;
-  // Disable buttons if queen is dead
+  // Disable buttons if queen is dead or during demo
   const playerQueenAlive = gameState.ants.some(a => a.team === 0 && a.type === 'queen' && !a.dead);
-  if (!playerQueenAlive) {
+  if (!playerQueenAlive || window.demoMode) {
     Object.keys(ANT_COST).forEach(type => {
       $(`btn${type.charAt(0).toUpperCase() + type.slice(1)}`).disabled = true;
     });
