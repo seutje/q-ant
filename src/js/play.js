@@ -99,31 +99,39 @@ function drawAnt(a) {
   ctx.save();
   ctx.translate(px, py);
 
-  // body
+  // body: an oval where the legs attach
   ctx.fillStyle = TEAM_COLORS[a.team] || '#FFF';
+  const r = ANT_RADIUS[a.type] || 4;
+  const bodyW = r * 1.5; // width of the oval
+  const bodyH = r;       // height of the oval
   ctx.beginPath();
-  ctx.arc(0, 0, ANT_RADIUS[a.type] || 4, 0, Math.PI * 2);
+  ctx.ellipse(0, 0, bodyW, bodyH, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // head: a smaller circle at the front
+  ctx.beginPath();
+  ctx.arc(bodyW, 0, r * 0.75, 0, Math.PI * 2);
+  ctx.fill();
   ctx.stroke();
 
   // simple legs (2-frame walk)
   const wiggle = Math.sin(performance.now() * 0.01 * a.speed * 100) * 2;
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
-  const r = ANT_RADIUS[a.type] || 4;
 
   // draw three pairs of legs with slight diagonal offsets
   // keep the diagonal legs closer to the middle pair
   const legAngles = [0, Math.PI / 8, -Math.PI / 8];
   legAngles.forEach(angle => {
     [-1, 1].forEach(side => {
-      const dx = Math.cos(angle) * r * side;
+      const dx = Math.cos(angle) * bodyW * side;
       const dy = Math.sin(angle) * r + wiggle * side;
       ctx.beginPath();
       ctx.moveTo(dx, dy);
-      ctx.lineTo(dx * 2, dy * 2);
+      ctx.lineTo(dx * 1.5, dy * 2);
       ctx.stroke();
     });
   });
