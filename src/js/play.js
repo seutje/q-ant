@@ -112,7 +112,8 @@ function drawAnt(a) {
   const r = ANT_RADIUS[a.type] || 4;
 
   // draw three pairs of legs with slight diagonal offsets
-  const legAngles = [0, Math.PI / 4, -Math.PI / 4];
+  // keep the diagonal legs closer to the middle pair
+  const legAngles = [0, Math.PI / 8, -Math.PI / 8];
   legAngles.forEach(angle => {
     [-1, 1].forEach(side => {
       const dx = Math.cos(angle) * r * side;
