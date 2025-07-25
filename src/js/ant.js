@@ -319,6 +319,14 @@ export class Ant {
     ctx.fill();
     ctx.stroke();
 
+    // antennae extending from the front of the head
+    ctx.beginPath();
+    ctx.moveTo(-headR * 0.3, bodyRy + headR * 1.2 - 2);
+    ctx.lineTo(-headR * 1.0, bodyRy + headR * 2.0 - 2);
+    ctx.moveTo(headR * 0.3, bodyRy + headR * 1.2 - 2);
+    ctx.lineTo(headR * 1.0, bodyRy + headR * 2.0 - 2);
+    ctx.stroke();
+
     // simple legs (2-frame walk)
     const wiggle = Math.sin(performance.now() * 0.01 * this.speed * 100) * 2;
     ctx.strokeStyle = '#000';
