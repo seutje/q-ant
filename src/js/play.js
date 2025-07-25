@@ -109,8 +109,12 @@ function drawAnt(a) {
   const wiggle = Math.sin(performance.now() * 0.01 * a.speed * 100) * 2;
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
-  [[-3,  wiggle], [3, -wiggle]].forEach(([dx, dy]) => {
-    ctx.beginPath(); ctx.moveTo(dx, dy); ctx.lineTo(dx * 2, dy * 2); ctx.stroke();
+  const r = ANT_RADIUS[a.type] || 4;
+  [[-r,  wiggle], [r, -wiggle]].forEach(([dx, dy]) => {
+    ctx.beginPath();
+    ctx.moveTo(dx, dy);
+    ctx.lineTo(dx * 2, dy * 2);
+    ctx.stroke();
   });
 
   ctx.restore();
