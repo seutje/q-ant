@@ -102,11 +102,14 @@ function getPlayerStats() {
   return { ...gameState.totalAnts[0] };
 }
 
+window.isReloading = window.isReloading || false;
+
 function checkWinLoss() {
   const queens = gameState.ants.filter(a => a.type === 'queen' && !a.dead);
   const queenCount = queens.length;
 
-  if (window.demoMode && queenCount < 2) {
+  if (window.demoMode && queenCount < 2 && !window.isReloading) {
+    window.isReloading = true;
     location.reload();
     return;
   }
