@@ -102,10 +102,18 @@ function drawAnt(a) {
   // body
   ctx.fillStyle = TEAM_COLORS[a.team] || '#FFF';
   ctx.beginPath();
-  ctx.arc(0, 0, ANT_RADIUS[a.type] || 4, 0, Math.PI * 2);
+  const bodyR = ANT_RADIUS[a.type] || 4;
+  ctx.arc(0, 0, bodyR, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // head attached below the body
+  const headR = bodyR * 0.5;
+  ctx.beginPath();
+  ctx.arc(0, bodyR + headR, headR, 0, Math.PI * 2);
+  ctx.fill();
   ctx.stroke();
 
   // simple legs (2-frame walk)
