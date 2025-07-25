@@ -14,6 +14,7 @@ export class Ant {
     this.team   = team;
     this.x      = x;
     this.y      = y;
+    this.dir    = Math.PI / 2; // default facing downward
 
     // copy stats from constants
     Object.assign(this, ANT_STATS[type]);
@@ -253,6 +254,10 @@ export class Ant {
   move(dx, dy, map) {
     const newX = this.x + dx;
     const newY = this.y + dy;
+
+    if (dx !== 0 || dy !== 0) {
+      this.dir = Math.atan2(dy, dx);
+    }
 
     // Check for horizontal boundaries
     if (newX < 0.5 || newX > MAP_W - 0.5) {
