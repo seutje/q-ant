@@ -16,20 +16,7 @@ function updateSeedAndRestart() {
   }
 }
 
-// Show a demo match using AI for all teams
-window.demoMode = true;
-['gameArea', 'ui-team-0', 'ui-team-1', 'ui-team-2', 'ui-team-3']
-  .forEach(id => document.getElementById(id).classList.remove('hidden'));
-import('./play.js');
-
-randomBtn.onclick = () => {
-  seedInput.value = Math.floor(Math.random() * 999999);
-  updateSeedAndRestart();
-};
-
-seedInput.addEventListener('change', updateSeedAndRestart);
-
-startBtn.onclick = async () => {
+function startGame() {
   window.demoMode = false;
 
   // reset all dynamic game state before starting a fresh match
@@ -38,7 +25,7 @@ startBtn.onclick = async () => {
   gameState.pheromones = [];
   gameState.deadAnts = [0, 0, 0, 0];
   gameState.totalAnts = [{}, {}, {}, {}];
-  gameState.teams.forEach(t => t.sugar = 100);
+  gameState.teams.forEach(t => { t.sugar = 100; });
 
   const seed = seedInput.value || 12345;
   sessionStorage.setItem('qantSeed', seed);
@@ -46,5 +33,30 @@ startBtn.onclick = async () => {
   ['gameArea', 'ui-team-0', 'ui-team-1', 'ui-team-2', 'ui-team-3']
     .forEach(id => document.getElementById(id).classList.remove('hidden'));
   // use a unique query string to force re-execution of play.js
-  await import(`./play.js?seed=${seed}&t=${Date.now()}`);
+  import(`./play.js?seed=${seed}&t=${Date.now()}`);
+}
+
+// Show a demo match using AI for all teams unless a game is pending
+if (sessionStorage.getItem('startGame') === '1') {
+  sessionStorage.removeItem('startGame');
+  startGame();
+} else {
+  window.demoMode = true;
+  ['gameArea', 'ui-team-0', 'ui-team-1', 'ui-team-2', 'ui-team-3']
+    .forEach(id => document.getElementById(id).classList.remove('hidden'));
+  import('./play.js');
+}
+
+randomBtn.onclick = () => {
+  seedInput.value = Math.floor(Math.random() * 999999);
+  updateSeedAndRestart();
+};
+
+seedInput.addEventListener('change', updateSeedAndRestart);
+
+startBtn.onclick = () => {
+  const seed = seedInput.value || 12345;
+  sessionStorage.setItem('qantSeed', seed);
+  sessionStorage.setItem('startGame', '1');
+  location.reload();
 };
