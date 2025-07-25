@@ -98,6 +98,7 @@ function drawAnt(a) {
   const py = a.y * TILE;
   ctx.save();
   ctx.translate(px, py);
+  ctx.rotate((a.dir || 0) - Math.PI / 2);
 
   // body
   ctx.fillStyle = TEAM_COLORS[a.team] || '#FFF';
