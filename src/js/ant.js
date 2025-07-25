@@ -322,9 +322,9 @@ export class Ant {
     // antennae extending from the front of the head
     ctx.beginPath();
     ctx.moveTo(-headR * 0.3, bodyRy + headR * 1.2 - 2);
-    ctx.lineTo(-headR * 1.0, bodyRy + headR * 2.0 - 2);
+    ctx.lineTo(-headR * 1.5, bodyRy + headR * 3.0 - 2);
     ctx.moveTo(headR * 0.3, bodyRy + headR * 1.2 - 2);
-    ctx.lineTo(headR * 1.0, bodyRy + headR * 2.0 - 2);
+    ctx.lineTo(headR * 1.5, bodyRy + headR * 3.0 - 2);
     ctx.stroke();
 
     // simple legs (2-frame walk)
