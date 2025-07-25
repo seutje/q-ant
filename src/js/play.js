@@ -222,5 +222,6 @@ function handleResize() {
 
 window.addEventListener('resize', handleResize);
 document.addEventListener('DOMContentLoaded', handleResize);
+handleResize();
 
 requestAnimationFrame(gameLoop);
