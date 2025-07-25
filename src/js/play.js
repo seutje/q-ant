@@ -104,6 +104,9 @@ function drawAnt(a) {
   ctx.beginPath();
   ctx.arc(0, 0, ANT_RADIUS[a.type] || 4, 0, Math.PI * 2);
   ctx.fill();
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 1;
+  ctx.stroke();
 
   // simple legs (2-frame walk)
   const wiggle = Math.sin(performance.now() * 0.01 * a.speed * 100) * 2;
