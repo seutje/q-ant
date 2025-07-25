@@ -15,12 +15,12 @@ export const ANT_COST = {
 
 /* ---------- Unit stats ---------- */
 export const ANT_STATS = {
-  worker:   { hp: 10, dmg: 0, range: 0, speed: 0.050, attackSpeed: 100, size: 1 },
+  worker:   { hp: 10, dmg: 0, range: 0, speed: 0.050, attackSpeed: 100, size: 2 },
   private:  { hp: 25, dmg: 5, range: 1, speed: 0.045, attackSpeed: 100, size: 3 },
   general:  { hp: 90, dmg: 20, range: 1, speed: 0.022, attackSpeed: 200, size: 4 },
   artillery:{ hp: 20, dmg: 10, range: 9, speed: 0.028, attackSpeed: 150, size: 2 },
   defender: { hp: 300, dmg: 10, range: 1, speed: 0.015, attackSpeed: 200, size: 5 },
-  queen:    { hp: 500, dmg: 0, range: 0, speed: 0,                size: 6 }
+  queen:    { hp: 500, dmg: 0, range: 0, speed: 0, size: 6 }
 };
 
 
