@@ -286,10 +286,10 @@ export class Ant {
     }
 
     if (target.hp !== undefined) {
-      const dmg = this.dmg;
+      const dmg = Math.min(this.dmg, target.hp);
       target.hp -= dmg;
-      addDamageText(target.x, target.y, dmg);
       this.lastAttackTime = performance.now();
+      addDamageText(target.x, target.y, dmg);
     }
   }
 
