@@ -212,6 +212,7 @@ export class Ant {
         const inRange = enemyAnts.filter(a => dist(a, nest) <= 20);
         if (inRange.length) {
           this.target = inRange[0];
+          this.dir = Math.atan2(this.target.y - this.y, this.target.x - this.x);
           const d = dist(this, this.target);
           if (d <= this.range + 0.5) {
             this.attack(this.target);
@@ -239,6 +240,7 @@ export class Ant {
             : enemyQueens[0]; // Target the first available enemy queen if no other ants
         }
         if (!this.target) break;
+        this.dir = Math.atan2(this.target.y - this.y, this.target.x - this.x);
         const d = dist(this, this.target);
         if (d <= this.range + 0.5) {
           this.attack(this.target);
