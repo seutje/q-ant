@@ -34,9 +34,9 @@ export const TEAM_COLORS = [
 
 /* ---------- Sugar resource types ---------- */
 export const SUGAR_TYPES = [
-  { name: 'Soda Puddle',       amount: 100, rarity: 0.6 },
-  { name: 'Corn Syrup Puddle', amount: 200, rarity: 0.3 },
-  { name: 'Energy Drink',      amount: 400, rarity: 0.1 }
+  { name: 'Soda Puddle',       amount: 100, rarity: 0.3 },
+  { name: 'Corn Syrup Puddle', amount: 200, rarity: 0.4 },
+  { name: 'Energy Drink',      amount: 400, rarity: 0.5 }
 ];
 
 /* ---------- Helpers ---------- */
